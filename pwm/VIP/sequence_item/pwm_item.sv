@@ -97,10 +97,10 @@ endclass
 	//Compare method returns match ---> if(actual.compare(expect))
 	//There are 3 steps to do this
 	//do_compare is used by scoreboards
-	//The second argument is used for advance comparison uvm_comparer comparer
+	//The second argument is used for advance comparison (uvm_comparer comparer)
 	/*The uvm_comparer policy object has to be passed to the do_compare() method for compatibility with the 
 	  virtual method template, but it is not necessary to use it in the comparison function and performance 
-		can be improved by not using it.*/
+		can be improved by not using it.*/ 
 	function bit pwm_item :: do_compare(uvm_object rhs, uvm_comparer comparer);
 	//1st: cast uvm_object handle into pwm_item handle so you can access pwm_item properties
 	/*As pwm_item properties are not visible from just the uvm_object handle, declare new handle that points 
@@ -162,6 +162,12 @@ endclass
 		$sformat(s, ":%s\n oe_pwm1 = 0x%0x" ,s,oe_pwm1); 
 		$sformat(s, ":%s\n oe_pwm2 = 0x%0x" ,s,oe_pwm2); 
 		$sformat(s, ":%s\n result  = 0x%0x" ,s,rdata_o); 
+
+		/* For aggregated class properties,
+			 $sformat(s, "%s\n aggregated class  = %s", s,
+			 				 (aggregated_class_handle == null) ? "null" : aggregated_class_handle.convert2string()); 
+		*/
+		return s;
 	endfunction  //function string pwm_item :: convert2string();
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //----------------------------------------convert2string Method---------------------------------------//
@@ -169,3 +175,4 @@ endclass
 /* Note that the rhs argument is of type uvm_object since it is a virtual method, and that it therefore 
 	 needs to be cast to the actual transaction type before its fields can be copied.
 */
+// Few lines are taken from Universal Verification Methodology cookbook
