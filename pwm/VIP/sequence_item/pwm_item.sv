@@ -14,7 +14,7 @@
 // Description:                                                                                        //
 //         The pwm_item class extends from uvm_sequence_item is used to generate random transaction    //
 //         items for PWM portlist.                                                                     //
-// Revision Date:                                                                                      //
+// Revision Date:  02-MAY-2022                                                                         //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class pwm_item extends uvm_sequence_item;
