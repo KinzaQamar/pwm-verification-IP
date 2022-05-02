@@ -190,6 +190,8 @@ endclass
 		printer.m_string = convert2string();
 	endfunction // 	function void pwm_item :: do_print(uvm_printer printer);
 
+	//uvm_printer is a class called by field macros to format values.
+
 	/*
 		An alternative, higher performance version of this would use $display() to print the value returned by
 		convert2string(), but this would not allow use of the various features of the various uvm_printer policy 
@@ -201,7 +203,7 @@ endclass
 	endfunction // 	function void pwm_item :: do_print(uvm_printer printer); */
 
 	/*To achieve full optimization, avoid using the print() and sprint() methods all together and call the 
-		convert2string() method directly. */
+		convert2string() method directly.*/
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //----------------------------------------do_print Method---------------------------------------------//
