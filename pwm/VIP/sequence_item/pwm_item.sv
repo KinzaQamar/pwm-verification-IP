@@ -208,11 +208,12 @@ endclass
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //----------------------------------------do_print Method---------------------------------------------//
 
-/* Some protocols reformats the data and uvm lets you do that. In UVM, pack() and unpack() methods transforms
-	 sequence_items into arrays of bits, bytes and integers. UVM testbench can record a transaction, by packing
-	 it into an array and writing it to a file. In later simulations another testbench read the file, unpack 
-	 the data into transaction and replay the transaction. Writing pack() and unpack() methods depends on the 
-	 protocol. For now, we left the methods empty.*/
+//*********************************************************************************************************//
+/*Some protocols reformats the data and uvm lets you do that. In UVM, pack() and unpack() methods transforms
+	sequence_items into arrays of bits, bytes and integers. UVM testbench can record a transaction, by packing
+	it into an array and writing it to a file. In later simulations another testbench read the file, unpack 
+	the data into transaction and replay the transaction. Writing pack() and unpack() methods depends on the 
+	protocol. For now, we left the methods empty.*/
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //----------------------------------------do_pack Method----------------------------------------------//
@@ -243,6 +244,8 @@ endclass
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //----------------------------------------do_record Method--------------------------------------------//
+
+//*********************************************************************************************************//
 
 /* Note that the rhs argument is of type uvm_object since it is a virtual method, and that it therefore 
 	 needs to be cast to the actual transaction type before its fields can be copied.
