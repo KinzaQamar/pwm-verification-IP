@@ -44,7 +44,7 @@ class pwm_item extends uvm_sequence_item;
 	extern virtual function bit do_compare(uvm_object rhs, uvm_comparer comparer);
 	extern virtual function void do_copy(uvm_object rhs);
 	extern virtual function string convert2string();
-	extern virtual function bit do_print();
+	extern virtual function void do_print(uvm_printer printer);
 	extern virtual function bit do_pack();
 	extern virtual function bit do_unpack();
 	extern virtual function bit do_record();
@@ -53,6 +53,7 @@ endclass
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //----------------------------------------do_copy Method----------------------------------------------//
+	
 	//Virtual Copy method 
 	/*Copies the object pointing to source handle into the object pointing to destination 
 	  handle ---> (dst.copy(src)) */
@@ -88,11 +89,13 @@ endclass
 	*/
 	//In this example, we do not have any aggregated class so we skip the 3b step 
 	endfunction  //function void pwm_item :: do_copy(uvm_object rhs);
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //----------------------------------------do_copy Method----------------------------------------------//
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //----------------------------------------do_compare Method-------------------------------------------//
+	
 	//Virtual compare method
 	//Compare method returns match ---> if(actual.compare(expect))
 	//There are 3 steps to do this
@@ -142,11 +145,13 @@ endclass
 	*/
 	//In this example, we do not have any aggregated class so we skip the 3b step 
 	endfunction //function bit pwm_item :: do_compare(uvm_object rhs, uvm_comparer comparer);
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //----------------------------------------do_compare Method-------------------------------------------//
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //----------------------------------------convert2string Method---------------------------------------//
+	
 	//Virtual Convert2string 
 	//Convert2string method is used to print transaction objects
 	function string pwm_item :: convert2string();
@@ -169,8 +174,37 @@ endclass
 		*/
 		return s;
 	endfunction  //function string pwm_item :: convert2string();
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //----------------------------------------convert2string Method---------------------------------------//
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//----------------------------------------do_print Method---------------------------------------------//
+	
+	/* The do_print() method is called by the uvm_object print() method. Its purpose is to print out a string 
+		 representation of an uvm data object using one of the uvm_printer policy classes. The simplest way to 
+		 implement the method is to set the printer string to the value returned by the convert2string() method.
+	*/
+
+	function void pwm_item :: do_print(uvm_printer printer);
+		printer.m_string = convert2string();
+	endfunction // 	function void pwm_item :: do_print(uvm_printer printer);
+
+	/*
+		An alternative, higher performance version of this would use $display() to print the value returned by
+		convert2string(), but this would not allow use of the various features of the various uvm_printer policy 
+		classes for	formatting the data.
+	*/
+
+	/*function void pwm_item :: do_print(uvm_printer printer);
+		$display(convert2string());
+	endfunction // 	function void pwm_item :: do_print(uvm_printer printer); */
+
+	/*To achieve full optimization, avoid using the print() and sprint() methods all together and call the 
+		convert2string() method directly. */
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//----------------------------------------do_print Method---------------------------------------------//
 
 /* Note that the rhs argument is of type uvm_object since it is a virtual method, and that it therefore 
 	 needs to be cast to the actual transaction type before its fields can be copied.
