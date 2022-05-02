@@ -45,9 +45,9 @@ class pwm_item extends uvm_sequence_item;
 	extern virtual function void do_copy(uvm_object rhs);
 	extern virtual function string convert2string();
 	extern virtual function void do_print(uvm_printer printer);
-	extern virtual function void do_pack();
-	extern virtual function void do_unpack();
-	extern virtual function void do_record();
+	extern virtual function void do_pack(uvm_packer packer);
+	extern virtual function void do_unpack(uvm_packer packer);
+	extern virtual function void do_record(uvm_recorder recorder);
 	
 endclass
 
