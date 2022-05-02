@@ -45,9 +45,9 @@ class pwm_item extends uvm_sequence_item;
 	extern virtual function void do_copy(uvm_object rhs);
 	extern virtual function string convert2string();
 	extern virtual function void do_print(uvm_printer printer);
-	extern virtual function bit do_pack();
-	extern virtual function bit do_unpack();
-	extern virtual function bit do_record();
+	extern virtual function void do_pack();
+	extern virtual function void do_unpack();
+	extern virtual function void do_record();
 	
 endclass
 
@@ -208,21 +208,38 @@ endclass
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //----------------------------------------do_print Method---------------------------------------------//
 
+/* Some protocols reformats the data and uvm lets you do that. In UVM, pack() and unpack() methods transforms
+	 sequence_items into arrays of bits, bytes and integers. UVM testbench can record a transaction, by packing
+	 it into an array and writing it to a file. In later simulations another testbench read the file, unpack 
+	 the data into transaction and replay the transaction. Writing pack() and unpack() methods depends on the 
+	 protocol. For now, we left the methods empty.*/
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //----------------------------------------do_pack Method----------------------------------------------//
 
+	function void pwm_item :: do_pack (uvm_packer packer);
+		return;
+	endfunction // function void pwm_item :: do_pack (uvm_packer packer);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //----------------------------------------do_pack Method----------------------------------------------//
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //----------------------------------------do_unpack Method--------------------------------------------//
+
+	function void pwm_item :: do_unpack (uvm_packer packer);
+		return;
+	endfunction // function void pwm_item :: do_unpack (uvm_packer packer);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //----------------------------------------do_unpack Method--------------------------------------------//
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //----------------------------------------do_record Method--------------------------------------------//
+
+	function void pwm_item :: do_record (uvm_recorder recorder);
+		return;
+	endfunction // 	function void pwm_item :: do_record (uvm_recorder recorder);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //----------------------------------------do_record Method--------------------------------------------//
