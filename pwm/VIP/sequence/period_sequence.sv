@@ -43,7 +43,7 @@ class period_sequence extends uvm_sequence # (tx_item);
 //                                                                                                     //
 // Description:                                                                                        //
 //         period_sequence generates transactions at a period register address.  											 //
-// Revision Date:                                                                                      //
+// Revision Date:  3rd-May-2022                                                                                      //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class period_sequence extends uvm_sequence # (tx_item);
@@ -58,10 +58,12 @@ class period_sequence extends uvm_sequence # (tx_item);
 
   virtual task body();
 			tx_item tx;
-			repeat(1) begin 			        							       //generate transactions for block size times
-			tx = tx_item::type_id::create("tx"); 							 //Body task creates transaction using factory creation
-			start_item(tx);		                  							 //Wait for driver to be ready
-			if (!tx.randomize())		           							   //Randomize transaction
+			repeat(1) begin 			        							      //generate transactions for block size times
+			tx = tx_item::type_id::create("tx"); 							//Body task creates transaction using factory creation
+			start_item(tx);		                  							/*start item. sequence body() blocks waiting for driver to 
+			                                       							be ready.Driver ask about sending transaction in its run phase.*/				
+																												//Wait for driver to be ready
+			if (!tx.randomize())		           								//Randomize transaction
 				`uvm_fatal("Fatal","Randomization Failed")
 			tx.addr_i = 8'h4;																	//Address to set period for channel 1
 			tx.rst_ni = 1'h1;
@@ -70,5 +72,7 @@ class period_sequence extends uvm_sequence # (tx_item);
 																			                	  transactions again. */
 			end
 	endtask
+
+	//After the body() methods returns , it passes the control back to the test.
 
 endclass
