@@ -12,8 +12,8 @@
 // Language:       SystemVerilog - UVM                                                                 //
 //                                                                                                     //
 // Description:                                                                                        //
-//         reset_sequence generates rst_ni values to set or reset the DUT registers.  				   //
-// Revision Date:                                                                                      //
+//         reset_sequence generates rst_ni values to set or reset the DUT registers.  				  `			 //
+// Revision Date:  3rd-May-2022                                                                                      //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 class reset_sequence extends uvm_sequence # (tx_item);
 
@@ -29,7 +29,9 @@ class reset_sequence extends uvm_sequence # (tx_item);
 			tx_item tx;
 			repeat(1) begin 			        								//generate transactions for block size times
 			tx = tx_item::type_id::create("tx"); 					//Body task creates transaction using factory creation
-			start_item(tx);		                  					//Wait for driver to be ready
+			start_item(tx);		                  					/*start item. sequence body() blocks waiting for driver to 
+			                                       					be ready.Driver ask about sending transaction in its run phase.*/				
+																										//Wait for driver to be ready
 			if (!tx.randomize())		           						//Randomize transaction
 				`uvm_fatal("Fatal","Randomization Failed")
 			tx.rst_ni  = 1'h0;
@@ -38,5 +40,7 @@ class reset_sequence extends uvm_sequence # (tx_item);
 																										  transactions again.*/
 			end
 	endtask
+
+	//After the body() methods returns , it passes the control back to the test.
 
 endclass	
