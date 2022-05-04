@@ -26,6 +26,10 @@ class dc_sequence extends uvm_sequence # (tx_item);
 		super.new(name);
 	endfunction
 
+	extern virtual task body();
+
+endclass
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*The two most important properties of a sequence are the body method and the sequencer handle. 
 	
@@ -41,28 +45,58 @@ class dc_sequence extends uvm_sequence # (tx_item);
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////Running a sequence/////////////////////////////////////////////
+//Step 1 - Sequence creation
+//Step 2 - Sequence configuration
+//Step 3 - Starting the sequence:	
+//				 A sequence is started using a call to its start() method, passing as an argument a pointer to 
+//				 the sequencer through which it will be sending sequence_items to a driver. The start() method
+//				 assigns the sequencer pointer to a sequencer handle called m_sequencer within the sequence 
+//				 and then calls the body task within the sequence. When the sequence body task completes, the 
+//				 start method returns. Since it requires the body task to finish and this requires interaction
+//				 with a driver, start() is a blocking method.
 
-  virtual task body();
+//////////////////////////////////Sending a sequence_item to a driver///////////////////////////////////
+//Step 1 - Creation
+//Step 2 - Ready - start_item()
+//Step 3 - Set
+//Step 4 - Go - finish_item():
+//				 The finish_item() call is made, which blocks until the driver has completed its side of the 
+//				 transfer protocol for the item. No simulation time should be consumed between start_item() 
+//				 and finish_item().
+//Step 5 - Response - get_response():
+//				 This step is optional, and is only used if the driver sends a response to indicate that it has
+//				 completed transaction associated with the sequence_item. The get_response() call blocks until
+//			   a response item is available from the sequencers response FIFO.
+
+  task dc_sequence :: body();
 		tx_item tx;
 	//repeat(1) begin 			        								//generate transactions for n times
+			//Step 1 - Creation
 			tx = tx_item::type_id::create("tx"); 				//Body task creates transaction using factory creation
+			
+			//Step 2 - Ready - start_item()
 			start_item(tx);		                  				/*start item. sequence body() blocks waiting for driver 
 																										to be ready.Driver ask about sending transaction in 
 																										its run phase.*/				
 																									//Wait for driver to be ready
+			//Step 3 - Set
 			if (!tx.randomize())		           					//Randomize transaction
 				`uvm_fatal("Fatal","Randomization Failed")
 			tx.addr_i  = 8'hc;													//Address to set Duty cycle for channel 1
 			tx.rst_ni  = 1'h1;
 			tx.write   = 1'h1;
+			
+			//Step 4 - Go - finish_item()
 			finish_item(tx);		          					    /*Sends transaction and waits for response from driver 
 																										to know when it is ready again to generate and send 
 																										transactions again.*/
-	//end
-	endtask //  virtual task body();
+			//Step 5 - Response - get_response()
 
-//////////////////////////////////////////Running a sequence/////////////////////////////////////////////
+		//end
+		
+	endtask //  task dc_sequence :: body();
 
-	//After the body() methods returns , it passes the control back to the test.
+//////////////////////////////////Sending a sequence_item to a driver///////////////////////////////////
+//////////////////////////////////////////Running a sequence///////////////////////////////////////////
 
-endclass
+//After the body() methods returns , it passes the control back to the test.
