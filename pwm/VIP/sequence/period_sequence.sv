@@ -43,7 +43,7 @@ class period_sequence extends uvm_sequence # (tx_item);
 //                                                                                                     //
 // Description:                                                                                        //
 //         period_sequence generates transactions at a period register address.  											 //
-// Revision Date:  3rd-May-2022                                                                                      //
+// Revision Date:  3rd-May-2022                                                                        //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class period_sequence extends uvm_sequence # (tx_item);
@@ -56,22 +56,26 @@ class period_sequence extends uvm_sequence # (tx_item);
 		super.new(name);
 	endfunction
 
+//////////////////////////////////////////Running a sequence/////////////////////////////////////////////
+
   virtual task body();
-			tx_item tx;
-			repeat(1) begin 			        							      //generate transactions for block size times
-			tx = tx_item::type_id::create("tx"); 							//Body task creates transaction using factory creation
-			start_item(tx);		                  							/*start item. sequence body() blocks waiting for driver to 
-			                                       							be ready.Driver ask about sending transaction in its run phase.*/				
-																												//Wait for driver to be ready
-			if (!tx.randomize())		           								//Randomize transaction
+		tx_item tx;
+		//repeat(1) begin 			        							//generate transactions for n times
+				tx = tx_item::type_id::create("tx"); 			//Body task creates transaction using factory creation
+				start_item(tx);		                  			/*start item. sequence body() blocks waiting for driver 
+																									  to be ready.Driver ask about sending transaction in 
+																									  its run phase.*/				
+																									//Wait for driver to be ready
 				`uvm_fatal("Fatal","Randomization Failed")
-			tx.addr_i = 8'h4;																	//Address to set period for channel 1
+			tx.addr_i = 8'h4;														//Address to set period for channel 1
 			tx.rst_ni = 1'h1;
-			finish_item(tx);		          					    			/*Sends transaction and waits for response from driver 
-																													to know when it is ready again to generate and send 
-																			                	  transactions again. */
-			end
-	endtask
+			finish_item(tx);		          					    /*Sends transaction and waits for response from driver 
+																										to know when it is ready again to generate and send 
+																			              transactions again. */
+  //end
+	endtask //  virtual task body();
+
+//////////////////////////////////////////Running a sequence/////////////////////////////////////////////
 
 	//After the body() methods returns , it passes the control back to the test.
 
