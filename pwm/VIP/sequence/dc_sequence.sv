@@ -13,7 +13,7 @@
 //                                                                                                     //
 // Description:                                                                                        //
 //         dc_sequence generates transactions at a duty cycle register address.   										 //
-// Revision Date:  3rd-May-2022                                                                                      //
+// Revision Date:  3rd-May-2022                                                                        //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class dc_sequence extends uvm_sequence # (tx_item);
@@ -40,23 +40,28 @@ class dc_sequence extends uvm_sequence # (tx_item);
 */
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+//////////////////////////////////////////Running a sequence/////////////////////////////////////////////
+
   virtual task body();
-			tx_item tx;
-			repeat(1) begin 			        											//generate transactions for block size times
-			tx = tx_item::type_id::create("tx"); 								//Body task creates transaction using factory creation
-			start_item(tx);		                  								/*start item. sequence body() blocks waiting for driver to 
-			                                       								be ready.Driver ask about sending transaction in its run phase.*/				
-																													//Wait for driver to be ready
-			if (!tx.randomize())		           									//Randomize transaction
+		tx_item tx;
+	//repeat(1) begin 			        								//generate transactions for n times
+			tx = tx_item::type_id::create("tx"); 				//Body task creates transaction using factory creation
+			start_item(tx);		                  				/*start item. sequence body() blocks waiting for driver 
+																										to be ready.Driver ask about sending transaction in 
+																										its run phase.*/				
+																									//Wait for driver to be ready
+			if (!tx.randomize())		           					//Randomize transaction
 				`uvm_fatal("Fatal","Randomization Failed")
-			tx.addr_i  = 8'hc;																	//Address to set Duty cycle for channel 1
+			tx.addr_i  = 8'hc;													//Address to set Duty cycle for channel 1
 			tx.rst_ni  = 1'h1;
 			tx.write   = 1'h1;
-			finish_item(tx);		          					    				/*Sends transaction and waits for response from driver 
-																														to know when it is ready again to generate and send 
-																											  		transactions again.*/
-			end
+			finish_item(tx);		          					    /*Sends transaction and waits for response from driver 
+																										to know when it is ready again to generate and send 
+																										transactions again.*/
+	//end
 	endtask //  virtual task body();
+
+//////////////////////////////////////////Running a sequence/////////////////////////////////////////////
 
 	//After the body() methods returns , it passes the control back to the test.
 
