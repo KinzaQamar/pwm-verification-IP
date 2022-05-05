@@ -16,7 +16,7 @@
 // Revision Date:  3rd-May-2022                                                                        //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class dc_sequence extends uvm_sequence # (tx_item);
+class dc_sequence extends uvm_sequence # (pwm_item);
 
     //Factory Registration
 	`uvm_object_utils(dc_sequence)
@@ -69,10 +69,10 @@ endclass
 //			   a response item is available from the sequencers response FIFO.
 
   task dc_sequence :: body();
-		tx_item tx;
+		pwm_item tx;
 	//repeat(1) begin 			        								//generate transactions for n times
 			//Step 1 - Creation
-			tx = tx_item::type_id::create("tx"); 				//Body task creates transaction using factory creation
+			tx = pwm_item::type_id::create("tx"); 				//Body task creates transaction using factory creation
 			
 			//Step 2 - Ready - start_item()
 			start_item(tx);		                  				/*start item. sequence body() blocks waiting for driver 
