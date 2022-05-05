@@ -7,7 +7,7 @@
 //                                                                                                     //
 // Create Date:    20-APRIL-2022                                                                       //
 // Design Name:    PWM Verification IP                                                                 //
-// Module Name:    tx_driver.sv                                                                        //
+// Module Name:    pwm_driver.sv                                                                       //
 // Project Name:   PWM Verification IP.                                                                //
 // Language:       SystemVerilog - UVM                                                                 //
 //                                                                                                     //
