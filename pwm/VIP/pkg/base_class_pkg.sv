@@ -16,31 +16,29 @@
 // Revision Date:                                                                                      //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-package pkg;
+package base_class_pkg;
 
     `include "uvm_macros.svh"
 		import uvm_pkg::*;
 
     typedef class pwm_item;
-    typedef class ctrl_sequence #(pwm_item);
-    typedef class div_sequence #(pwm_item);
-    typedef class dc_sequence #(pwm_item);
-    typedef class reset_sequence #(pwm_item);
-    typedef class period_sequence #(pwm_item);
-    typedef class pwm_driver #(pwm_item);
+    typedef class ctrl_sequence;
+    typedef class div_sequence;
+    typedef class dc_sequence;
+    typedef class reset_sequence;
+    typedef class period_sequence;
+    typedef class pwm_driver;
+    typedef class pwm_agent;
+    typedef class pwm_test;
 
-    `include "../sequence_item/tx_item.sv"
-    //`include "../interface/pwm_interface.sv"
-    //`include "../config_obj/pwm_config.sv"
-    //`include "../config_obj/env_config.sv"
+    `include "../sequence_item/pwm_item.sv"
     `include "../sequence/ctrl_sequence.sv"
     `include "../sequence/dc_sequence.sv"
     `include "../sequence/div_sequence.sv"
     `include "../sequence/period_sequence.sv"
     `include "../sequence/reset_sequence.sv"
-    //`include "../virtual_sequence/pwm_vseq.sv"
     `include "../driver/pwm_driver.sv"
-    `include "../test/test.sv"
-    `include "../top/hdl_top.sv"
+    `include "../agent/pwm_agent.sv"
+    `include "../test/pwm_test.sv"
 
 endpackage
