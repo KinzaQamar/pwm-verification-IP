@@ -19,7 +19,7 @@
 package pkg;
 
     `include "uvm_macros.svh"
-	import uvm_pkg::*;
+		import uvm_pkg::*;
 
     typedef class pwm_item;
     typedef class ctrl_sequence #(pwm_item);
