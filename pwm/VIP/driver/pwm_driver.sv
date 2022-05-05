@@ -27,7 +27,7 @@ class pwm_driver extends uvm_driver #(pwm_item);
 	endfunction
 
 	//virtual pwm_interface vif;
-	//agent_congig agt_cfg;
+	//agent_config agt_cfg;
 
 	extern virtual function void build_phase (uvm_phase phase);
 	extern virtual task run_phase(uvm_phase phase);
