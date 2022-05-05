@@ -1,34 +1,4 @@
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Company:        MICRO-ELECTRONICS RESEARCH LABORATORY                                               //
-//                                                                                                     //
-// Engineers:      Kinza Qamar Zaman - Verification                                                    //
-//                                                                                                     //
-// Additional contributions by:                                                                        //
-//                                                                                                     //
-// Create Date:    19-APRIL-2022                                                                       //
-// Design Name:    PWM Verification IP                                                                 //
-// Module Name:    period_sequence.sv                                                                  //
-// Project Name:   PWM Verification IP.                                                                //
-// Language:       SystemVerilog - UVM                                                                 //
-//                                                                                                     //
-// Description:                                                                                        //
-//         period_sequence generates transactions at a period register address.  											 //
-// Revision Date:                                                                                      //
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-class period_sequence extends uvm_sequence # (tx_item);
-
-   //Factory Registration
-	`uvm_object_utils(period_sequence)
-
-	//Constructor
-	function new(string name="period_sequence");
-		super.new(name);
-	endfunction
-
-  virtual task body();
-			tx_item tx;
-			repeat(1) begin 			        											/////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////			        											/////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Company:        MICRO-ELECTRONICS RESEARCH LABORATORY                                               //
 //                                                                                                     //
 // Engineers:      Kinza Qamar Zaman - Verification                                                    //
@@ -46,7 +16,7 @@ class period_sequence extends uvm_sequence # (tx_item);
 // Revision Date:  3rd-May-2022                                                                        //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class period_sequence extends uvm_sequence # (tx_item);
+class period_sequence extends uvm_sequence # (pwm_item);
 
    //Factory Registration
 	`uvm_object_utils(period_sequence)
@@ -99,10 +69,10 @@ endclass
 //			   a response item is available from the sequencers response FIFO.
 
   task period_sequence :: body();
-		tx_item tx;
+		pwm_item tx;
 		//repeat(1) begin 			        							 //generate transactions for n times
 			//Step 1 - Creation
-				tx = tx_item::type_id::create("tx"); 			 //Body task creates transaction using factory creation
+				tx = pwm_item::type_id::create("tx"); 			 //Body task creates transaction using factory creation
 				
 			//Step 2 - Ready - start_item()				
 				start_item(tx);		                  			 /*start item. sequence body() blocks waiting for driver 
