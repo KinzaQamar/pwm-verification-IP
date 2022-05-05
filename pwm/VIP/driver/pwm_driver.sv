@@ -73,7 +73,7 @@ endclass
 		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.oe_pwm2 = %0d",tr.oe_pwm2),UVM_LOW);
 	endtask //task pwm_driver :: transfer(pwm_item tr);
 
-/*NOTE: This driver class is just a sample. 
+/*NOTE: This driver class is just a sample.*/
 
 
 
