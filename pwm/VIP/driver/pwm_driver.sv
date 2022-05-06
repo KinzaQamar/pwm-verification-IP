@@ -31,7 +31,7 @@ class pwm_driver extends uvm_driver #(pwm_item);
 
 	//extern virtual function void build_phase (uvm_phase phase);
 	extern virtual task run_phase(uvm_phase phase);
-	extern virtual task transfer(pwm_item tr);
+	extern virtual task print_transaction(pwm_item tr);
 
 endclass 
 
@@ -73,9 +73,12 @@ endclass
 		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.oe_pwm2 = %0d",tr.oe_pwm2),UVM_LOW);
 	endtask //task pwm_driver :: transfer(pwm_item tr);*/
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------print_transaction Method-----------------------------------------//
+
 	task pwm_driver :: print_transaction(pwm_item tr);
 		`uvm_info("CONVERT2STRING",tr.convert2string,UVM_LOW);
-	endtask //task pwm_driver :: transfer(pwm_item tr);*/
+	endtask //	task pwm_driver :: print_transaction(pwm_item tr);
 
 /*NOTE: This driver class is just a sample. */
 
