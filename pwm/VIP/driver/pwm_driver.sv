@@ -29,7 +29,7 @@ class pwm_driver extends uvm_driver #(pwm_item);
 	//virtual pwm_interface vif;
 	//agent_config agt_cfg;
 
-	extern virtual function void build_phase (uvm_phase phase);
+	//extern virtual function void build_phase (uvm_phase phase);
 	extern virtual task run_phase(uvm_phase phase);
 	extern virtual task transfer(pwm_item tr);
 
@@ -52,7 +52,7 @@ endclass
 																					seq_item_port is a blocking tlm port declare and constructed inside the driver.*/
 			// 3- Send transaction to the DUT
 			//vif.transaction(tx); 						//transfer the item to the dut via virtual interface
-			transfer(tx); 
+			print_transaction(tx); 
 			// 4- Driver is done with the transaction
 			seq_item_port.item_done(); 			 	/*When the transaction completes, the driver calls item_done() to tell the seq it is
 			 																		done with the item. This call unblocks the sequence. */
@@ -61,7 +61,7 @@ endclass
 
 	endtask //task pwm_driver :: run_phase(uvm_phase phase);
 
-	task pwm_driver :: transfer(pwm_item tr);
+	/*task pwm_driver :: print_transaction(pwm_item tr);
 		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.rst_ni  = %0d",tr.rst_ni ),UVM_LOW);
 		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.write   = %0d",tr.write  ),UVM_LOW);
 		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.addr_i  = %0d",tr.addr_i ),UVM_LOW);
@@ -71,9 +71,13 @@ endclass
 		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.o_pwm_2 = %0d",tr.o_pwm_2),UVM_LOW);
 		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.oe_pwm1 = %0d",tr.oe_pwm1),UVM_LOW);
 		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.oe_pwm2 = %0d",tr.oe_pwm2),UVM_LOW);
-	endtask //task pwm_driver :: transfer(pwm_item tr);
+	endtask //task pwm_driver :: transfer(pwm_item tr);*/
 
-/*NOTE: This driver class is just a sample.*/
+	task pwm_driver :: print_transaction(pwm_item tr);
+		`uvm_info("CONVERT2STRING",tr.convert2string,UVM_LOW);
+	endtask //task pwm_driver :: transfer(pwm_item tr);*/
+
+/*NOTE: This driver class is just a sample. */
 
 
 
