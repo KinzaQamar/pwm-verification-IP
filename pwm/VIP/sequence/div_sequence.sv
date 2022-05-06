@@ -18,7 +18,7 @@
 
 class div_sequence extends uvm_sequence # (pwm_item);
 
-    //Factory Registration
+  //Factory Registration
 	`uvm_object_utils(div_sequence)
 
 	//Constructor
@@ -72,7 +72,7 @@ endclass
 		pwm_item tx;
 	//repeat(1) begin 			        								//generate transactions for n times
 			//Step 1 - Creation
-			tx = pwm_item::type_id::create("tx"); 				//Body task creates transaction using factory creation
+			tx = pwm_item::type_id::create("tx"); 			//Body task creates transaction using factory creation
 			
 			//Step 2 - Ready - start_item()
 			start_item(tx);		                  				/*start item. sequence body() blocks waiting for driver 
