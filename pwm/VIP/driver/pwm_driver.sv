@@ -61,6 +61,9 @@ endclass
 
 	endtask //task pwm_driver :: run_phase(uvm_phase phase);
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------print_transaction Method-----------------------------------------//
+
 	/*task pwm_driver :: print_transaction(pwm_item tr);
 		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.rst_ni  = %0d",tr.rst_ni ),UVM_LOW);
 		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.write   = %0d",tr.write  ),UVM_LOW);
@@ -73,12 +76,12 @@ endclass
 		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.oe_pwm2 = %0d",tr.oe_pwm2),UVM_LOW);
 	endtask //task pwm_driver :: transfer(pwm_item tr);*/
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-//-----------------------------------print_transaction Method-----------------------------------------//
-
 	task pwm_driver :: print_transaction(pwm_item tr);
 		`uvm_info("CONVERT2STRING",tr.convert2string,UVM_LOW);
 	endtask //	task pwm_driver :: print_transaction(pwm_item tr);
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------print_transaction Method-----------------------------------------//
 
 /*NOTE: This driver class is just a sample. */
 
