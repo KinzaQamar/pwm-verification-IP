@@ -18,27 +18,27 @@
 
 package base_class_pkg;
 
-    `include "uvm_macros.svh"
-		import uvm_pkg::*;
+	import uvm_pkg::*;
+  `include "uvm_macros.svh"
 
-    typedef class pwm_item;
-    typedef class ctrl_sequence;
-    typedef class div_sequence;
-    typedef class dc_sequence;
-    typedef class reset_sequence;
-    typedef class period_sequence;
-    typedef class pwm_driver;
-    typedef class pwm_agent;
-    typedef class pwm_test;
+  typedef class pwm_item;
+  typedef class ctrl_sequence;
+  typedef class div_sequence;
+  typedef class dc_sequence;
+  typedef class reset_sequence;
+  typedef class period_sequence;
+  typedef class pwm_driver;
+  typedef class pwm_agent;
+  typedef class pwm_test;
 
-    `include "../sequence_item/pwm_item.sv"
-    `include "../sequence/ctrl_sequence.sv"
-    `include "../sequence/dc_sequence.sv"
-    `include "../sequence/div_sequence.sv"
-    `include "../sequence/period_sequence.sv"
-    `include "../sequence/reset_sequence.sv"
-    `include "../driver/pwm_driver.sv"
-    `include "../agent/pwm_agent.sv"
-    `include "../test/pwm_test.sv"
+  `include "../test/pwm_test.sv"
+  `include "../agent/pwm_agent.sv"
+  `include "../driver/pwm_driver.sv"
+  `include "../sequence/ctrl_sequence.sv"
+  `include "../sequence/dc_sequence.sv"
+  `include "../sequence/div_sequence.sv"
+  `include "../sequence/period_sequence.sv"
+  `include "../sequence/reset_sequence.sv"
+  `include "../sequence_item/pwm_item.sv"
 
 endpackage
