@@ -18,7 +18,7 @@
 // Revision Date:                                                                                      //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-module top;
+module hdl_top;
 
 	import uvm_pkg::*;        	 //Import uvm base classes
 	import base_class_pkg ::*;	// Import component classes
