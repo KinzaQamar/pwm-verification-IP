@@ -21,11 +21,11 @@
 module hdl_top;
 
 	import uvm_pkg::*;        	 //Import uvm base classes
-	import base_class_pkg ::*;	// Import component classes
-  `include "uvm_macros.svh"  //  Includes uvm macros utility
+	import base_class_pkg ::*;	 //Import component classes
+  `include "uvm_macros.svh"    //Includes uvm macros utility
 
 	initial begin
-		run_test();    				 //run_test start execution of uvm phases
+		run_test();    				     //run_test start execution of uvm phases
 	end 
 	
 endmodule 
