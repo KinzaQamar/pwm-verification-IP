@@ -27,13 +27,27 @@ class tx_monitor extends uvm_monitor;
 		super.new(name,parent);
 	endfunction
 		
-	//virtual tb_ifc vif; //like driver , monitor too use virtual interface to call interface methods
+	//virtual tb_ifc vif; //like driver, monitor too use virtual interface to call interface methods.
 	//agent_config agt_cfg;
 	uvm_analysis_port #(tx_item) dut_in_tx_port;   //for sending input transactions
 	uvm_analysis_port #(tx_item) dut_out_tx_port;  //for sending output transactions
-		
-	//Monitor build phase
-	function void build_phase(uvm_phase phase); 
+
+//////////////////////////////////////////METHODS///////////////////////////////////////////////////////
+
+	//Standard UVM methods
+	extern virtual function void build_phase(uvm_phase phase); 
+	extern virtual task run_phase(uvm_phase phase);
+	
+	//Method for getting inputs and outputs from the DUT through the interface
+	extern virtual task get_inputs();
+	extern virtual task get_outputs();
+
+endclass
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//----------------------------------------Monitor build phase-----------------------------------------//
+
+	function void pwm_monitor :: build_phase(uvm_phase phase); 
 		//Unlike driver single TLM port, monitor's analysis port has not declared in the base class.
 		//These TLM classes are never extended, so no need to call factory to create an object.
 		//Constructor has 2 arguments: i) Instance name ii) handle to the parent
@@ -44,8 +58,13 @@ class tx_monitor extends uvm_monitor;
 		vif=agt_cfg.vif*/
 	endfunction
 
-	//Monitor run_phase 
-	virtual task run_phase(uvm_phase phase);
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//----------------------------------------Monitor build_phase-----------------------------------------//
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//----------------------------------------Monitor run_phase-----------------------------------------//
+
+	task pwm_monitor :: run_phase(uvm_phase phase);
 		//input and output transaction are process separately, so spawn off separate thread to the receiver
 		/*fork
 			get_inputs();
@@ -53,7 +72,13 @@ class tx_monitor extends uvm_monitor;
 		join*/
 	endtask
 
-	virtual task get_inputs();
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//----------------------------------------Monitor run_phase-------------------------------------------//
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//----------------------------------------get_inputs method-------------------------------------------//
+
+	task pwm_monitor :: get_inputs();
 		tx_item tx_in;
 		forever begin
 			tx_in = tx_item :: type_id :: create("tx_in");
@@ -64,7 +89,13 @@ class tx_monitor extends uvm_monitor;
 		end
 	endtask
 
-	virtual task get_outputs();
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//----------------------------------------get_inputs method-------------------------------------------//
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//----------------------------------------get_outputs method------------------------------------------//
+
+	task pwm_monitor :: get_outputs();
 		tx_item tx_out;
 		forever begin
 			tx_out = tx_item :: type_id :: create("tx_out");
@@ -76,4 +107,5 @@ class tx_monitor extends uvm_monitor;
 		end
 	endtask
 
-endclass
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//----------------------------------------get_outputs method------------------------------------------//
