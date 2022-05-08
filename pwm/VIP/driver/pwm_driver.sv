@@ -29,7 +29,10 @@ class pwm_driver extends uvm_driver #(pwm_item);
 		super.new(name,parent);
 	endfunction
 
+	//Virtual interface declaration
 	//virtual pwm_interface vif;
+
+	//configuration object
 	//agent_config agt_cfg;
 
 //////////////////////////////////////////METHODS///////////////////////////////////////////////////////
@@ -37,6 +40,8 @@ class pwm_driver extends uvm_driver #(pwm_item);
 	// Standard UVM Methods:	
 	//extern virtual function void build_phase (uvm_phase phase);
 	extern virtual task run_phase(uvm_phase phase);
+
+	//Print method for printing transaction items
 	extern virtual task print_transaction(pwm_item tr);
 
 endclass
@@ -88,11 +93,3 @@ endclass
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //-----------------------------------print_transaction Method-----------------------------------------//
-
-
-
-
-
-
-
-
