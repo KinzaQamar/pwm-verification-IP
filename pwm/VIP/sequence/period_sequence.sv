@@ -26,6 +26,9 @@ class period_sequence extends uvm_sequence # (pwm_item);
 		super.new(name);
 	endfunction
 
+//////////////////////////////////////////METHODS///////////////////////////////////////////////////////
+
+	// Standard UVM Methods:	
 	extern virtual task body();
 
 endclass
