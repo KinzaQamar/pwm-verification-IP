@@ -42,7 +42,7 @@ class pwm_item extends uvm_sequence_item;
 			 
 //////////////////////////////////////////METHODS///////////////////////////////////////////////////////
 
-	//virtual method to operate on transactions:
+//virtual method to operate on transactions:
 	extern virtual function bit do_compare(uvm_object rhs, uvm_comparer comparer);
 	extern virtual function void do_copy(uvm_object rhs);
 	extern virtual function string convert2string();
