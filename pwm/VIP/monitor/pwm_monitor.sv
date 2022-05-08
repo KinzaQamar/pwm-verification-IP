@@ -29,8 +29,8 @@ class tx_monitor extends uvm_monitor;
 		
 	//virtual tb_ifc vif; //like driver, monitor too use virtual interface to call interface methods.
 	//agent_config agt_cfg;
-	uvm_analysis_port #(tx_item) dut_in_tx_port;   //for sending input transactions
-	uvm_analysis_port #(tx_item) dut_out_tx_port;  //for sending output transactions
+	uvm_analysis_port #(pwm_item) dut_in_tx_port;   //for sending input transactions
+	uvm_analysis_port #(pwm_item) dut_out_tx_port;  //for sending output transactions
 
 //////////////////////////////////////////METHODS///////////////////////////////////////////////////////
 
@@ -79,13 +79,13 @@ endclass
 //----------------------------------------get_inputs method-------------------------------------------//
 
 	task pwm_monitor :: get_inputs();
-		tx_item tx_in;
+		pwm_item pwm_tx_in;
 		forever begin
-			tx_in = tx_item :: type_id :: create("tx_in");
-			/*vif.get_an_input(tx_in); //call interface method get_an_input by passing handle to the argument. 
+			pwm_tx_in = pwm_item :: type_id :: create("pwm_tx_in");
+			/*vif.get_an_input(pwm_tx_in); //call interface method get_an_input by passing handle to the argument. 
 			  The method waits for the DUT input transaction to fills in the properties of input transaction. */
-			`uvm_info("TX_IN",tx_in.convert2string(),UVM_DEBUG);
-			dut_in_tx_port.write(tx_in); //broadcast the transaction to the port
+			`uvm_info("PWM_TX_IN",pwm_tx_in.convert2string(),UVM_DEBUG);
+			dut_in_tx_port.write(pwm_tx_in); //broadcast the transaction to the port
 		end
 	endtask
 
@@ -96,14 +96,14 @@ endclass
 //----------------------------------------get_outputs method------------------------------------------//
 
 	task pwm_monitor :: get_outputs();
-		tx_item tx_out;
+		pwm_item pwm_tx_out;
 		forever begin
-			tx_out = tx_item :: type_id :: create("tx_out");
-			//vif.get_an_output(tx_out); 
+			pwm_tx_out = pwm_item :: type_id :: create("pwm_tx_out");
+			//vif.get_an_output(pwm_tx_out); 
 			/*call interface method get_an_output by passing handle to the argument. 
 			  The method waits for the DUT output transaction to fills in the properties of output transaction. */
-			`uvm_info("TX_OUT",tx_out.convert2string(),UVM_DEBUG);
-			dut_out_tx_port.write(tx_out); //broadcast the transaction to the port
+			`uvm_info("PWM_TX_OUT",pwm_tx_out.convert2string(),UVM_DEBUG);
+			dut_out_tx_port.write(pwm_tx_out); //broadcast the transaction to the port
 		end
 	endtask
 
