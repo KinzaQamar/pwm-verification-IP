@@ -18,6 +18,9 @@
 
 class pwm_driver extends uvm_driver #(pwm_item);
 
+// Driver parameterized with the same sequence_item (pwm_item) for request & response
+// response defaults to request
+
 	//Factory Registration
 	`uvm_component_utils(pwm_driver)
 
@@ -29,11 +32,16 @@ class pwm_driver extends uvm_driver #(pwm_item);
 	//virtual pwm_interface vif;
 	//agent_config agt_cfg;
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////METHODS////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// Standard UVM Methods:	
 	//extern virtual function void build_phase (uvm_phase phase);
 	extern virtual task run_phase(uvm_phase phase);
 	extern virtual task print_transaction(pwm_item tr);
 
-endclass 
+endclass
 
 	/*function void pwm_driver :: build_phase (uvm_phase phase);
 		if(!uvm_config_db #(agent_cfg)::get(this,"","agt_cfg",agt_cfg))
