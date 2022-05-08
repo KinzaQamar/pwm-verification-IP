@@ -21,7 +21,7 @@ class pwm_item extends uvm_sequence_item;
 
 	//Factory Registration
 	`uvm_object_utils(pwm_item) 
-	/*Sequencer or transactions are object classes so use object utility macros to register it into the 
+	/*Sequencer or transactions are object classes so use object utility macro to register it into the 
 	  factory */
 
 	//Constructor
@@ -39,7 +39,9 @@ class pwm_item extends uvm_sequence_item;
 			 logic 		   			  	o_pwm_2;
 			 logic    	  				oe_pwm1;
 			 logic    	  				oe_pwm2;
-	
+			 
+//////////////////////////////////////////METHODS///////////////////////////////////////////////////////
+
 	//virtual method to operate on transactions:
 	extern virtual function bit do_compare(uvm_object rhs, uvm_comparer comparer);
 	extern virtual function void do_copy(uvm_object rhs);
@@ -156,7 +158,7 @@ endclass
 	//Convert2string method is used to print transaction objects
 	function string pwm_item :: convert2string();
 		string s = super.convert2string(); //Get the string with base object properties
-		$sformat(s, ":%s\n PWM pwm_item values are : ",s); 
+		$sformat(s, ":%s\n PWM sequence items are : ",s); 
 		$sformat(s, ":%s\n rst_ni  = 0x%0x" ,s,rst_ni); 
 		$sformat(s, ":%s\n write   = 0x%0x" ,s,write); 
 		$sformat(s, ":%s\n addr_i  = 0x%0x" ,s,addr_i); 
@@ -181,9 +183,9 @@ endclass
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //----------------------------------------do_print Method---------------------------------------------//
 	
-	/* The do_print() method is called by the uvm_object print() method. Its purpose is to print out a string 
-		 representation of an uvm data object using one of the uvm_printer policy classes. The simplest way to 
-		 implement the method is to set the printer string to the value returned by the convert2string() method.
+	/*The do_print() method is called by the uvm_object print() method. Its purpose is to print out a string 
+		representation of an uvm data object using one of the uvm_printer policy classes. The simplest way to 
+		implement the method is to set the printer string to the value returned by the convert2string() method.
 	*/
 
 	function void pwm_item :: do_print(uvm_printer printer);
