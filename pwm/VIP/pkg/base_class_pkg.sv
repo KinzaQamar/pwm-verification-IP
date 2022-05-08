@@ -37,6 +37,7 @@ package base_class_pkg;
   typedef class pwm_driver;
   typedef class pwm_agent;
   typedef class pwm_test;
+  typedef class pwm_monitor;
 
 ////////////////////////////////Forward class declaration////////////////////////////////////////////////
 
@@ -51,6 +52,7 @@ package base_class_pkg;
   `include "../sequence/period_sequence.sv"
   `include "../sequence/reset_sequence.sv"
   `include "../sequence_item/pwm_item.sv"
+  `include "../monitor/pwm_monitor.sv"
 
 //////////////////////////////////////Include files//////////////////////////////////////////////////////
 
