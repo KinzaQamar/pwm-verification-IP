@@ -90,7 +90,7 @@ endclass
 	task pwm_driver :: print_transaction(pwm_item tr);
 		`uvm_info("CONVERT2STRING",tr.convert2string,UVM_LOW);
 		//vif.print_interface_transaction(tr)
-	endtask //	task pwm_driver :: print_transaction(pwm_item tr);
+	endtask // task pwm_driver :: print_transaction(pwm_item tr);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //-----------------------------------print_transaction Method-----------------------------------------//
