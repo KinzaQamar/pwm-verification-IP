@@ -25,7 +25,7 @@ module hdl_top;
   `include "uvm_macros.svh"    //Includes uvm macros utility
 
 	pwm_interface pwm_if();
-	
+
 	initial begin
 		run_test();    				     //run_test start execution of uvm phases
 	end 
