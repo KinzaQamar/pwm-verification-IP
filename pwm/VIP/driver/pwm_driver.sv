@@ -88,7 +88,7 @@ endclass
 	endtask //task pwm_driver :: transfer(pwm_item tr);*/
 
 	task pwm_driver :: print_transaction(pwm_item tr);
-		`uvm_info("CONVERT2STRING",tr.convert2string,UVM_LOW);
+		`uvm_info(get_type_name(),tr.convert2string,UVM_LOW);
 		//vif.print_interface_transaction(tr)
 	endtask // task pwm_driver :: print_transaction(pwm_item tr);
 
