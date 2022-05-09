@@ -12,7 +12,7 @@
 // Language:       SystemVerilog - UVM                                                                 //
 //                                                                                                     //
 // Description:                                                                                        //
-//            PWM interface has methods and signals to drive pwm_items to DUT.                         //
+//             PWM interface has methods and signals to drive pwm_items to DUT.                        //
 // Revision Date:  9-MAY-2022                                                                          //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -73,7 +73,6 @@ interface pwm_interface;
     tx.addr_i  = addr_i  ;
     tx.wdata_i = wdata_i ;
 	endtask // task automatic get_an_input (pwm_item tx);
-
 
 	task automatic get_an_output (pwm_item tx);
     tx.rdata_o = rdata_o ;
