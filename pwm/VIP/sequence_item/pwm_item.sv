@@ -212,10 +212,10 @@ endclass
 
 //*********************************************************************************************************//
 /*Some protocols reformats the data and uvm lets you do that. In UVM, pack() and unpack() methods transforms
-	sequence_items into arrays of bits, bytes and integers. UVM testbench can record a transaction, by packing
-	it into an array and writing it to a file. In later simulations another testbench read the file, unpack 
-	the data into transaction and replay the transaction. Writing pack() and unpack() methods depends on the 
-	protocol. For now, we left the methods empty.*/
+  sequence_items into arrays of bits, bytes and integers. UVM testbench can record a transaction, by packing
+  it into an array and writing it to a file. In later simulations another testbench read the file, unpack 
+  the data into transaction and replay the transaction. Writing pack() and unpack() methods depends on the 
+  protocol. For now, we left the methods empty.*/
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //----------------------------------------do_pack Method----------------------------------------------//
