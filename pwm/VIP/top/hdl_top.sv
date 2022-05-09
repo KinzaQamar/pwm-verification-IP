@@ -6,9 +6,9 @@
 // Additional contributions by:                                                                        //
 //                                                                                                     //
 // Create Date:    20-MARCH-2022                                                                       //
-// Design Name:    Analysis port example                                                               //
+// Design Name:    PWM Verification IP                                                                 //
 // Module Name:    top.sv                                                                              //
-// Project Name:   Monitor and Agent analysis port example   		                                       //
+// Project Name:   PWM Verification IP.                                                                //
 // Language:       SystemVerilog - UVM                                                                 //
 //                                                                                                     //
 // Description:                                                                                        //
@@ -24,6 +24,8 @@ module hdl_top;
 	import base_class_pkg ::*;	 //Import component classes
   `include "uvm_macros.svh"    //Includes uvm macros utility
 
+	pwm_interface pwm_if();
+	
 	initial begin
 		run_test();    				     //run_test start execution of uvm phases
 	end 
