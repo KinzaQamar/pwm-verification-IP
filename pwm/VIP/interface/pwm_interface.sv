@@ -18,6 +18,10 @@
 
 interface pwm_interface;
 
+	import uvm_pkg::*;        	 //Import uvm base classes
+	import base_class_pkg ::*;	 //Import component classes
+  `include "uvm_macros.svh"    //Includes uvm macros utility
+
   logic						clk_i;												
 	logic						rst_ni;												
 	logic						write;										
@@ -82,7 +86,7 @@ interface pwm_interface;
     tx.oe_pwm2 = oe_pwm2 ;
 	endtask // task automatic get_an_output (pwm_item tx);
 
-  task automatic print_interface_transaction (pwm_item tx);
+  task automatic print_interface_transaction ();
 		get_an_input  (tx);
 		get_an_output (tx);
 		`uvm_info("INTERFACE SIGNALS",tx.convert2string,UVM_DEBUG);
