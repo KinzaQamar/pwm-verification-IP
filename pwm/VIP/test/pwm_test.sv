@@ -13,7 +13,7 @@
 //                                                                                                     //
 // Description:                                                                                        //
 //            The pwm_test class extends from uvm_test is used to start the sequence.                  //
-// Revision Date:                                                                                      //
+// Revision Date:  11-MAY-2022                                                                         //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class pwm_test extends uvm_test;
@@ -44,6 +44,26 @@ class pwm_test extends uvm_test;
 	extern function void end_of_elaboration_phase (uvm_phase phase);
 
 endclass
+
+//////////////////////////////////////////uvm_config_db get()/////////////////////////////////////////////
+/*
+	Note the following:
+	a-The uvm_config_db::get() method is a function that returns a bit value to indicate whether the object
+		retrieval was been successful or not; this is tested to ensure that the testbench does not proceed if 
+		the lookup fails.
+	b-The uvm_config_db::get() method is parameterised with the virtual interface type so that the right type 
+		of object is retrieved from the database.
+	c-The first argument of the get() method, context, is passed the handle for the UVM component in which the
+		call is being made ... this
+	d-The second argument, instance_name, is passed an empty string, "" , this means that only the path string 
+		for the component is applied based on the component path string derived from the component handle passed 
+		in context (i.e. "uvm_test_top").
+	e-The third argument is the uvm_config_db lookup string, this should match the lookup string assigned in 
+		the HDL module, in this case "pwm_if".
+	d-The fourth argument is the virtual interface handle. In this case the handle is inside a 
+		uvm_config_object that will be passed to an agent.
+*/
+//////////////////////////////////////////uvm_config_db get()/////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //----------------------------------------test build phase--------------------------------------------//
@@ -78,7 +98,8 @@ endclass
 		/*test raises an object and calls the start method in the sequence passing 
 			in a handle to the seqr. The sequence start method call body(). */
 		phase.drop_objection(this,"End tx_sequence"); /*when the seq body() task return, it drops the objection 
-																										telling UVM that the stimulus is done and run_phase() is over. */
+																										telling UVM that the stimulus is done and run_phase() 
+																										is over. */
 	endtask //	task pwm_test :: run_phase (uvm_phase phase);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
