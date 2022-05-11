@@ -15,7 +15,7 @@
 //             Top module is responsible to run tx_Test. We pass tx_test as a UVM_TESTNAME on          //
 // 			   		 the commmand line. run_test() gets the name of the test from the commandline            //
 //             and execute uvm_phases.		                                                             //
-// Revision Date:                                                                                      //
+// Revision Date:  11-May-2022                                                                         //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 module hdl_top;
