@@ -29,9 +29,12 @@ class pwm_test extends uvm_test;
 //////////////////////////////////////////COMPONENTS MEMBERS//////////////////////////////////////////////
 
 	/*
-		pwm_env env;
+		pwm_env env; */
 		pwm_agent agt;
- */
+
+//////////////////////////////////////////VIRTUAL INTERFACE//////////////////////////////////////////////
+
+	virtual pwm_interface vif; 
 
 //////////////////////////////////////////METHODS///////////////////////////////////////////////////////
 
@@ -48,7 +51,15 @@ endclass
 	//building the components inside the hierarchy of environment class
 	function void pwm_test :: build_phase(uvm_phase phase);
 		agt = pwm_agent::type_id::create("agt",this);
-		env = pwm_env::type_id::create("env",this);
+		/*
+		Format to get the configuration settings into the config_db:
+		uvm_config_db # (data type) :: get (scope{context(handle to the actual component that is calling the DB),
+																				instance}, name of the entry,variable written by the get call) 
+		Name of the scope would be : uvm_test_top set by the top module    
+		*/  
+		if (!uvm_config_db(virtual pwm_interface) :: get (this,"","pwm_if",vif));
+			`uvm_fatal("NOVIF","NO PWM VIF IN DB");
+		//env = pwm_env::type_id::create("env",this);
 	endfunction //	function void pwm_test :: build_phase(uvm_phase phase);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
