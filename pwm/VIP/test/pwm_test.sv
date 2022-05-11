@@ -12,7 +12,7 @@
 // Language:       SystemVerilog - UVM                                                                 //
 //                                                                                                     //
 // Description:                                                                                        //
-//            The pwm_test class extends from uvm_test is used to start the sequence.                  //
+//             The pwm_test class extends from uvm_test is used to start the sequence.                 //
 // Revision Date:  11-MAY-2022                                                                         //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
