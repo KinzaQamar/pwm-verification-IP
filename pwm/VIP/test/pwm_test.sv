@@ -12,8 +12,8 @@
 // Language:       SystemVerilog - UVM                                                                 //
 //                                                                                                     //
 // Description:                                                                                        //
-//             The pwm_test class extends from uvm_test is used to start the sequence.                 //
-// Revision Date:  11-MAY-2022                                                                         //
+//            The pwm_test class extends from uvm_test is used to start the sequence.                  //
+// Revision Date:                                                                                      //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class pwm_test extends uvm_test;
@@ -28,9 +28,7 @@ class pwm_test extends uvm_test;
 
 //////////////////////////////////////////COMPONENTS MEMBERS//////////////////////////////////////////////
 
-	/*
-		pwm_env env; */
-		pwm_agent agt;
+	pwm_env env; 
 
 //////////////////////////////////////////VIRTUAL INTERFACE//////////////////////////////////////////////
 
@@ -70,16 +68,15 @@ endclass
 
 	//building the components inside the hierarchy of environment class
 	function void pwm_test :: build_phase(uvm_phase phase);
-		agt = pwm_agent::type_id::create("agt",this);
+		env = pwm_env::type_id::create("env",this);
 		/*
 		Format to get the configuration settings into the config_db:
 		uvm_config_db # (data type) :: get (scope{context(handle to the actual component that is calling the DB),
 																				instance}, name of the entry,variable written by the get call) 
 		Name of the scope would be : uvm_test_top set by the top module    
 		*/  
-		if (!uvm_config_db(virtual pwm_interface) :: get (this,"","pwm_if",vif));
-			`uvm_fatal("NOVIF","NO PWM VIF IN DB");
-		//env = pwm_env::type_id::create("env",this);
+		if (!uvm_config_db # (virtual pwm_interface) :: get (this,"","pwm_if",vif))
+			`uvm_fatal(get_type_name(),"NO PWM VIF IN DB");
 	endfunction //	function void pwm_test :: build_phase(uvm_phase phase);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -94,7 +91,7 @@ endclass
 		div_sequence seq;
 	 	seq = div_sequence::type_id::create("seq");
 		phase.raise_objection(this,"Start tx_sequence"); 
-		seq.start(agt.sqr);
+		seq.start(env.agt.sqr);
 		/*test raises an object and calls the start method in the sequence passing 
 			in a handle to the seqr. The sequence start method call body(). */
 		phase.drop_objection(this,"End tx_sequence"); /*when the seq body() task return, it drops the objection 
