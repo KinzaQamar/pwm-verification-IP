@@ -31,6 +31,8 @@
 
 // compile files
 ../pkg/base_class_pkg.sv
-../top/top.sv          
+../hdl_top/hdl_top.sv          
+../interface/pwm_interface.sv
 
-
+//Additional options
++UVM_NO_RELNOTES
