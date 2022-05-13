@@ -28,8 +28,8 @@ class pwm_test extends uvm_test;
 
 //////////////////////////////////////////DATA MEMBERS///////////////////////////////////////////////////
 
-	pwm_config pwm_cfg;				//handle to configuration object
-	env_config env_cfg;				//handle to configuration object
+	pwm_config pwm_cfg;				  //handle to configuration object
+	env_config env_cfg;				  //handle to configuration object
 
 //////////////////////////////////////////COMPONENTS MEMBERS//////////////////////////////////////////////
 
@@ -37,7 +37,8 @@ class pwm_test extends uvm_test;
 
 //////////////////////////////////////////VIRTUAL INTERFACE//////////////////////////////////////////////
 
-	virtual pwm_interface vif; 
+	virtual pwm_interface vif;  /*If using config_object and setting vif through that than no need to 
+																separately describe vif as the test never uses it. */
 
 //////////////////////////////////////////METHODS///////////////////////////////////////////////////////
 
@@ -77,10 +78,19 @@ endclass
 	//building the components inside the hierarchy of environment class
 	function void pwm_test :: build_phase(uvm_phase phase);
 		`uvm_info($sformatf("BUILD PHASE : %s",get_type_name()),
-							$sformatf("BUILD PHASE OF %s HAS STARTED !!!",get_type_name()),UVM_LOW);	
+							$sformatf("BUILD PHASE OF %s HAS STARTED !!!",get_type_name()),UVM_LOW);
+
+		//create the config objects and low level components						
 		pwm_cfg = pwm_config::type_id::create("pwm_cfg",this);
 		env_cfg = env_config::type_id::create("env_cfg",this);
 		env     = pwm_env::type_id::create("env",this);
+
+		//Link the two objects together
+		env_cfg.pwm_cfg = pwm_cfg;
+
+		//Set the configurations for this test - only values other than default
+		env_cfg.enable_coverage = 0;
+
 		/*
 		Format to get the configuration settings into the config_db:
 		uvm_config_db # (data type) :: get (scope{context(handle to the actual component that is calling the DB),
@@ -88,8 +98,11 @@ endclass
 		Name of the scope would be : uvm_test_top set by the top module    
 		*/ 
 		//get the virtual interface handle from the top_hdl 
-		if (!uvm_config_db # (virtual pwm_interface) :: get (this,"","pwm_if",vif))
+		if (!uvm_config_db # (virtual pwm_interface) :: get (this,"","pwm_if",pwm_cfg.vif))
 			`uvm_fatal(get_type_name(),"NO PWM VIF IN DB");
+
+		//set the environment configuration object into the DB.
+		uvm_config_db # (env_config) :: set(this,"env","env_cfg",env_cfg); 	
 		 
 	endfunction //	function void pwm_test :: build_phase(uvm_phase phase);
 
