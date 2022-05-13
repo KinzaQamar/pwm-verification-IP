@@ -7,12 +7,12 @@
 //                                                                                                     //
 // Create Date:    8-MAY-2022                                                                          //
 // Design Name:    PWM Verification IP                                                                 //
-// Module Name:    pwm_monitor.sv                                                                      //
+// Module Name:    pwm_monitor.sv                                                                       //
 // Project Name:   PWM Verification IP.                                                                //
 // Language:       SystemVerilog - UVM                                                                 //
 //                                                                                                     //
 // Description:                                                                                        //
-//            pwm_monitor broadcast the input and output transactions from DUT through the analysis    //
+//            pwm_monitor broadcast the input and output transactions from DUT through the analysis     //
 //						port.                                                                                    //
 // Revision Date:                                                                                      //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -48,6 +48,8 @@ endclass
 //----------------------------------------Monitor build phase-----------------------------------------//
 
 	function void pwm_monitor :: build_phase(uvm_phase phase); 
+		`uvm_info($sformatf("BUILD PHASE : %s",get_type_name()),
+							$sformatf("BUILD PHASE OF %s HAS STARTED !!!",get_type_name()),UVM_LOW);
 		//Unlike driver single TLM port, monitor's analysis port has not declared in the base class.
 		//These TLM classes are never extended, so no need to call factory to create an object.
 		//Constructor has 2 arguments: 
@@ -102,8 +104,10 @@ endclass
 		forever begin
 			pwm_tx_out = pwm_item :: type_id :: create("pwm_tx_out");
 			//vif.get_an_output(pwm_tx_out); 
-			/*call interface method get_an_output by passing handle to the argument. 
-			  The method waits for the DUT output transaction to fills in the properties of output transaction. */
+			/*
+				Call interface method get_an_output by passing handle to the argument. 
+			  The method waits for the DUT output transaction to fills in the properties of output transaction.
+			*/
 			`uvm_info("PWM_TX_OUT",pwm_tx_out.convert2string(),UVM_DEBUG);
 			dut_out_tx_port.write(pwm_tx_out); //send the transaction for analysis to the TLM connection
 		end
