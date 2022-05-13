@@ -29,16 +29,18 @@ class pwm_driver extends uvm_driver #(pwm_item);
 		super.new(name,parent);
 	endfunction
 
-	//Virtual interface declaration
-	//virtual pwm_interface vif;
+//////////////////////////////////////////VIRTUAL INTERFACE//////////////////////////////////////////////
 
-	//configuration object
+	virtual pwm_interface vif;
+
+//////////////////////////////////////////DATA MEMBERS///////////////////////////////////////////////////
+
 	//agent_config agt_cfg;
 
 //////////////////////////////////////////METHODS///////////////////////////////////////////////////////
 
 	// Standard UVM Methods:	
-	//extern virtual function void build_phase (uvm_phase phase);
+	extern virtual function void build_phase (uvm_phase phase);
 	extern virtual task run_phase(uvm_phase phase);
 
 	//Print method for printing transaction items
@@ -46,11 +48,24 @@ class pwm_driver extends uvm_driver #(pwm_item);
 
 endclass
 
-	/*function void pwm_driver :: build_phase (uvm_phase phase);
-		if(!uvm_config_db #(agent_cfg)::get(this,"","agt_cfg",agt_cfg))
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//----------------------------------------Driver build phase------------------------------------------//
+
+	function void pwm_driver :: build_phase (uvm_phase phase);
+		`uvm_info($sformatf("BUILD PHASE : %s",get_type_name()),
+							$sformatf("BUILD PHASE OF %s HAS STARTED !!!",get_type_name()),UVM_LOW);
+	/*	if (!uvm_config_db # (virtual pwm_interface) :: get (this,"","pwm_if",vif))
+			`uvm_fatal(get_type_name(),"NO PWM VIF IN DB");*/
+	/*	if(!uvm_config_db #(agent_cfg)::get(this,"","agt_cfg",agt_cfg))
 			`uvm_fatal("DRIVER","driver failed to get the virtual interface");
-		vif = agt_cfg.vif;
-	endfunction //function void pwm_driver :: build_phase (uvm_phase phase); */
+		vif = agt_cfg.vif; */
+	endfunction //function void pwm_driver :: build_phase (uvm_phase phase); 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//----------------------------------------Driver build phase------------------------------------------//
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//----------------------------------------Driver run_phase--------------------------------------------//
 
 	task pwm_driver :: run_phase(uvm_phase phase);
 
@@ -64,6 +79,7 @@ endclass
 			// 3- Send transaction to the DUT
 			//vif.transaction(tx); 						//transfer the item to the dut via virtual interface
 			print_transaction(tx); 
+			//vif.print_interface_transaction(tx);
 			// 4- Driver is done with the transaction
 			seq_item_port.item_done(); 			 	/*When the transaction completes, the driver calls item_done() to tell the seq it is
 			 																		done with the item. This call unblocks the sequence. */
@@ -71,6 +87,9 @@ endclass
 		end
 
 	endtask //task pwm_driver :: run_phase(uvm_phase phase);
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//----------------------------------------Driver run_phase--------------------------------------------//
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //-----------------------------------print_transaction Method-----------------------------------------//
