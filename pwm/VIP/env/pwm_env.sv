@@ -61,7 +61,7 @@ endclass
 			`uvm_fatal(get_type_name(),"NO ENVIRONMENT CONFIGURATION OBJECT FOUND !!");	
 
 		//set the PWM configuration object into the DB.
-		uvm_config_db # (pwm_config) :: set (this,"agt*","env_cfg",env_cfg.pwm_cfg); 	
+		uvm_config_db # (pwm_config) :: set (this,"agt*","pwm_cfg",env_cfg.pwm_cfg); 	
 
 		if (env_cfg.enable_coverage) begin
 			`uvm_info($sformatf("COVERAGE ENABLED AT : %s",get_type_name()),
