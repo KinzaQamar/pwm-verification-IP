@@ -26,6 +26,11 @@ class pwm_test extends uvm_test;
 		super.new(name,parent);
 	endfunction
 
+//////////////////////////////////////////DATA MEMBERS///////////////////////////////////////////////////
+
+	pwm_config pwm_cfg;				//handle to configuration object
+	env_config env_cfg;				//handle to configuration object
+
 //////////////////////////////////////////COMPONENTS MEMBERS//////////////////////////////////////////////
 
 	pwm_env env; 
@@ -73,7 +78,9 @@ endclass
 	function void pwm_test :: build_phase(uvm_phase phase);
 		`uvm_info($sformatf("BUILD PHASE : %s",get_type_name()),
 							$sformatf("BUILD PHASE OF %s HAS STARTED !!!",get_type_name()),UVM_LOW);	
-		env = pwm_env::type_id::create("env",this);
+		pwm_cfg = pwm_config::type_id::create("pwm_cfg",this);
+		env_cfg = env_config::type_id::create("env_cfg",this);
+		env     = pwm_env::type_id::create("env",this);
 		/*
 		Format to get the configuration settings into the config_db:
 		uvm_config_db # (data type) :: get (scope{context(handle to the actual component that is calling the DB),
