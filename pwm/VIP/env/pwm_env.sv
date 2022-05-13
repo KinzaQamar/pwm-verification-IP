@@ -32,17 +32,23 @@ class pwm_env extends uvm_env;
 
 //////////////////////////////////////////METHODS///////////////////////////////////////////////////////
 
+	// Standard UVM Methods:	
 	extern virtual function void build_phase(uvm_phase phase);
 
 endclass
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-//----------------------------------------env build phase---------------------------------------------//
+//----------------------------------------Env build phase---------------------------------------------//
 
 	//building the components inside the hierarchy of environment class
 	function void pwm_env :: build_phase(uvm_phase phase);
+		`uvm_info($sformatf("BUILD PHASE : %s",get_type_name()),
+							$sformatf("BUILD PHASE OF %s HAS STARTED !!!",get_type_name()),UVM_LOW);
 		agt = pwm_agent::type_id::create("agt",this);
 	endfunction // 	function void pwm_env :: build_phase(uvm_phase phase);
 
 	/*Connect phase not required as we have no other component except of 
 	  an agent class, exist inside the environment hierarchy. */
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//----------------------------------------Env build phase---------------------------------------------//
