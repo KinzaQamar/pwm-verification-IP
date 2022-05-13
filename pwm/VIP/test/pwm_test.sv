@@ -41,6 +41,9 @@ class pwm_test extends uvm_test;
 	extern virtual task run_phase (uvm_phase phase);
 	extern function void end_of_elaboration_phase (uvm_phase phase);
 
+	//Print method for printing transaction items
+//	extern virtual task print_transaction(pwm_item tr);
+
 endclass
 
 //////////////////////////////////////////uvm_config_db get()/////////////////////////////////////////////
@@ -68,6 +71,8 @@ endclass
 
 	//building the components inside the hierarchy of environment class
 	function void pwm_test :: build_phase(uvm_phase phase);
+		`uvm_info($sformatf("BUILD PHASE : %s",get_type_name()),
+							$sformatf("BUILD PHASE OF %s HAS STARTED !!!",get_type_name()),UVM_LOW);	
 		env = pwm_env::type_id::create("env",this);
 		/*
 		Format to get the configuration settings into the config_db:
@@ -77,6 +82,7 @@ endclass
 		*/  
 		if (!uvm_config_db # (virtual pwm_interface) :: get (this,"","pwm_if",vif))
 			`uvm_fatal(get_type_name(),"NO PWM VIF IN DB");
+		 
 	endfunction //	function void pwm_test :: build_phase(uvm_phase phase);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,6 +94,7 @@ endclass
 	/*Connect phase not required as we have no other component except of 
 		an agent class, exist inside the environment hierarchy. */
 	task pwm_test :: run_phase (uvm_phase phase);
+		pwm_item tx;
 		div_sequence seq;
 	 	seq = div_sequence::type_id::create("seq");
 		phase.raise_objection(this,"Start tx_sequence"); 
@@ -97,6 +104,7 @@ endclass
 		phase.drop_objection(this,"End tx_sequence"); /*when the seq body() task return, it drops the objection 
 																										telling UVM that the stimulus is done and run_phase() 
 																										is over. */
+//		print_transaction(tx);																									
 	endtask //	task pwm_test :: run_phase (uvm_phase phase);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -112,3 +120,15 @@ endclass
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //----------------------------------------test end_of_elaboration_phase-------------------------------//
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------print_transaction Method-----------------------------------------//
+
+	/*task pwm_test :: print_transaction(pwm_item tr);
+		`uvm_info(get_type_name(),tr.convert2string,UVM_LOW);
+		vif.transaction(tr);
+		vif.print_interface_transaction(tr);
+	endtask // task pwm_driver :: print_transaction(pwm_item tr);*/
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------print_transaction Method-----------------------------------------//
