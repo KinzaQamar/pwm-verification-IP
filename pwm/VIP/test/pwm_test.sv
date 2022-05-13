@@ -79,7 +79,8 @@ endclass
 		uvm_config_db # (data type) :: get (scope{context(handle to the actual component that is calling the DB),
 																				instance}, name of the entry,variable written by the get call) 
 		Name of the scope would be : uvm_test_top set by the top module    
-		*/  
+		*/ 
+		//get the virtual interface handle from the top_hdl 
 		if (!uvm_config_db # (virtual pwm_interface) :: get (this,"","pwm_if",vif))
 			`uvm_fatal(get_type_name(),"NO PWM VIF IN DB");
 		 
