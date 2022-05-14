@@ -51,7 +51,9 @@ endclass
 
 	//building the components inside the hierarchy of agent class
 	function void pwm_agent :: build_phase(uvm_phase phase);
-	//get configuration information. Will be covered in later examples
+/*		`uvm_info($sformatf("RUN PHASE : %s",get_type_name()),
+							$sformatf("RUN PHASE : %s HAS STARTED !!!",get_type_name()),UVM_LOW);*/
+	//  get configuration information. Will be covered in later examples
 	//	agt_cfg = new();	
 		mon = pwm_monitor::type_id::create("mon",this);
 		dut_in_tx_port  = new("dut_in_tx_port",this);
@@ -75,6 +77,8 @@ endclass
 	function void pwm_agent :: connect_phase(uvm_phase phase);
 		//connect monitor input and output analysis port to the agent's port.
 		//Note that /*this*/ handle is optional.	
+		`uvm_info($sformatf("CONNECT PHASE : %s",get_type_name()),
+							$sformatf("CONNECT PHASE : %s HAS STARTED !!!",get_type_name()),UVM_LOW);
 		mon.dut_in_tx_port.connect(this.dut_in_tx_port);
 		mon.dut_out_tx_port.connect(this.dut_out_tx_port);
 		// Only connect the driver and the sequencer if active
