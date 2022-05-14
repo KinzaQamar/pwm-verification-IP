@@ -28,7 +28,7 @@ class pwm_agent extends uvm_agent;
 
 //////////////////////////////////////////DATA MEMBERS///////////////////////////////////////////////////
 
-	pwm_config pwm_cfg; 												     //handle to configuration object
+	pwm_config pwm_cfg; 												    //handle to configuration object
 
 //////////////////////////////////////////COMPONENTS MEMBERS//////////////////////////////////////////////
 
@@ -66,12 +66,16 @@ endclass
 			drv = pwm_driver::type_id::create("drv",this);
 			sqr = new("sqr",this);
 	  end
+
 		//always create the monitor
 		mon = pwm_monitor::type_id::create("mon",this);
 		
 		//get configuration information set by the environment through the DB. 
 		if (!uvm_config_db # (pwm_config) :: get (this,"","pwm_cfg",pwm_cfg))
-			`uvm_fatal(get_type_name(),"NO AGENT CONFIGURATION OBJECT FOUND !!");	 
+			`uvm_fatal(get_type_name(),"NO AGENT CONFIGURATION OBJECT FOUND !!")
+		else 
+			`uvm_info($sformatf("AGENT CONFIG OBJECT FOUND : %s",get_type_name()),
+							  $sformatf("%s SUCCESSFULLY GOT THE CONFIG OBJECT !!!",get_type_name()),UVM_LOW);			 
 
 	endfunction //	function void pwm_agent :: build_phase(uvm_phase phase);
 
@@ -92,14 +96,18 @@ endclass
 							$sformatf("CONNECT PHASE : %s HAS STARTED !!!",get_type_name()),UVM_LOW);
 		mon.dut_in_tx_port.connect(this.dut_in_tx_port);
 		mon.dut_out_tx_port.connect(this.dut_out_tx_port);
+		
 		// Only connect the driver and the sequencer if active
-		//if (agt_cfg.active == UVM_ACTIVE) begin
-				// The agent is actively driving stimulus
-				// Driver-Sequencer TLM connection
-				drv.seq_item_port.connect(sqr.seq_item_export); //Can't connect in build phase
-				// Virtual interface assignment
-						//...
-			//end
+		if (pwm_cfg.active == UVM_ACTIVE) begin
+			// The agent is actively driving stimulus
+			// Driver-Sequencer TLM connection
+			drv.seq_item_port.connect(sqr.seq_item_export); //Can't connect in build phase
+			`uvm_info($sformatf("CONNECTING DRIVER-SEQUENCER : %s",get_type_name()),
+								"Driver-Sequencer successfully connected",UVM_LOW);
+			// Virtual interface assignment
+					//...
+		end
+
 	endfunction //	function void pwm_agent :: connect_phase(uvm_phase phase);	
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
