@@ -67,11 +67,14 @@ endclass
 		dut_in_tx_port  = new("dut_in_tx_port",this);
 		dut_out_tx_port = new("dut_out_tx_port",this);
 
-		//get configuration information set by the environment through the DB. 
-		if (!uvm_config_db #(pwm_config) :: get(this," ","pwm_cfg",pwm_cfg)
-			`uvm_fatal(get_type_name(),"NO AGENT CONFIGURATION OBJECT FOUND !!");	 
+		//get configuration object set by the environment through the DB. 
+		if (!uvm_config_db #(pwm_config) :: get(this," ","pwm_cfg",pwm_cfg))
+			`uvm_fatal(get_type_name(),"NO AGENT CONFIGURATION OBJECT FOUND !!")
+		else 
+			`uvm_info($sformatf("AGENT CONFIG OBJECT FOUND : %s",get_type_name()),
+							  $sformatf("%s SUCCESSFULLY GOT THE CONFIG OBJECT !!!",get_type_name()),UVM_LOW);		
 		
-		vif=agt_cfg.vif;
+		vif = pwm_cfg.vif;
 
 	endfunction //	function void pwm_monitor :: build_phase(uvm_phase phase); 
 
