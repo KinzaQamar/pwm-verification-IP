@@ -7,12 +7,12 @@
 //                                                                                                     //
 // Create Date:    8-MAY-2022                                                                          //
 // Design Name:    PWM Verification IP                                                                 //
-// Module Name:    pwm_monitor.sv                                                                       //
+// Module Name:    pwm_monitor.sv                                                                      //
 // Project Name:   PWM Verification IP.                                                                //
 // Language:       SystemVerilog - UVM                                                                 //
 //                                                                                                     //
 // Description:                                                                                        //
-//            pwm_monitor broadcast the input and output transactions from DUT through the analysis     //
+//            pwm_monitor broadcast the input and output transactions from DUT through the analysis    //
 //						port.                                                                                    //
 // Revision Date:                                                                                      //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
