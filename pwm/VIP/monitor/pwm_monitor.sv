@@ -26,9 +26,18 @@ class pwm_monitor extends uvm_monitor;
 	function new(string name,uvm_component parent);
 		super.new(name,parent);
 	endfunction
-		
-	//virtual tb_ifc vif; //like driver, monitor too use virtual interface to call interface methods.
-	//agent_config agt_cfg;
+
+//////////////////////////////////////////VIRTUAL INTERFACE//////////////////////////////////////////////
+
+	virtual pwm_interface vif;    									/*like driver, monitor too use virtual interface to 
+																										call interface methods.*/
+
+//////////////////////////////////////////DATA MEMBERS///////////////////////////////////////////////////
+
+	pwm_config pwm_cfg; 												    //handle to configuration object
+
+//////////////////////////////////////////COMPONENTS MEMBERS//////////////////////////////////////////////
+
 	uvm_analysis_port #(pwm_item) dut_in_tx_port;   //for sending input transactions
 	uvm_analysis_port #(pwm_item) dut_out_tx_port;  //for sending output transactions
 
@@ -57,9 +66,13 @@ endclass
 		//ii) handle to the parent
 		dut_in_tx_port  = new("dut_in_tx_port",this);
 		dut_out_tx_port = new("dut_out_tx_port",this);
-		/*if(!uvm_config_db #(agent_config) :: get(this," ","agt_cfg",agt_cfg);
-			`uvm_fatal("get_type_name()","No  agent configuration found");
-		vif=agt_cfg.vif*/
+
+		//get configuration information set by the environment through the DB. 
+		if (!uvm_config_db #(pwm_config) :: get(this," ","pwm_cfg",pwm_cfg)
+			`uvm_fatal(get_type_name(),"NO AGENT CONFIGURATION OBJECT FOUND !!");	 
+		
+		vif=agt_cfg.vif;
+
 	endfunction //	function void pwm_monitor :: build_phase(uvm_phase phase); 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,7 +83,8 @@ endclass
 
 	task pwm_monitor :: run_phase(uvm_phase phase);
 		`uvm_info($sformatf("RUN PHASE : %s",get_type_name()),
-							$sformatf("RUN PHASE : %s HAS STARTED !!!",get_type_name()),UVM_LOW);		//input and output transaction are process separately, so spawn off separate thread to the receiver
+							$sformatf("RUN PHASE : %s HAS STARTED !!!",get_type_name()),UVM_LOW);		
+		//input and output transaction are process separately, so spawn off separate thread to the receiver
 		/*fork
 			get_inputs();
 			get_outputs();
@@ -86,9 +100,11 @@ endclass
 	task pwm_monitor :: get_inputs();
 		pwm_item pwm_tx_in;
 		forever begin
-			pwm_tx_in = pwm_item :: type_id :: create("pwm_tx_in");
-			/*vif.get_an_input(pwm_tx_in); //call interface method get_an_input by passing handle to the argument. 
-			  The method waits for the DUT input transaction to fills in the properties of input transaction. */
+			pwm_tx_in=pwm_item::type_id::create("pwm_tx_in");
+			/*
+			vif.get_an_input(pwm_tx_in); //call interface method get_an_input by passing handle to the argument. 
+			The method waits for the DUT input transaction to fills in the properties of input transaction. 
+			*/
 			`uvm_info("PWM_TX_IN",pwm_tx_in.convert2string(),UVM_DEBUG);
 			dut_in_tx_port.write(pwm_tx_in); //broadcast the transaction to the port
 		end
@@ -103,10 +119,12 @@ endclass
 	task pwm_monitor :: get_outputs();
 		pwm_item pwm_tx_out;
 		forever begin
-			pwm_tx_out = pwm_item :: type_id :: create("pwm_tx_out");
+			pwm_tx_out=pwm_item::type_id::create("pwm_tx_out");
 			//vif.get_an_output(pwm_tx_out); 
-			/*call interface method get_an_output by passing handle to the argument. 
-			  The method waits for the DUT output transaction to fills in the properties of output transaction. */
+			/*
+			call interface method get_an_output by passing handle to the argument. 
+			The method waits for the DUT output transaction to fills in the properties of output transaction. \
+			*/
 			`uvm_info("PWM_TX_OUT",pwm_tx_out.convert2string(),UVM_DEBUG);
 			dut_out_tx_port.write(pwm_tx_out); //send the transaction for analysis to the TLM connection
 		end
