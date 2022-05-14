@@ -102,7 +102,6 @@ endclass
 			`uvm_fatal(get_type_name(),"NO PWM VIF IN DB");
 
 		uvm_config_db # (env_config) :: set(this,"env","env_cfg",env_cfg); 
-		
 		 
 	endfunction //	function void pwm_test :: build_phase(uvm_phase phase);
 
