@@ -99,8 +99,12 @@ endclass
 		*/ 
 		//get the virtual interface handle from the top_hdl 
 		if (!uvm_config_db # (virtual pwm_interface) :: get (this,"","pwm_if",pwm_cfg.vif))
-			`uvm_fatal(get_type_name(),"NO PWM VIF IN DB");
+			`uvm_fatal(get_type_name(),"NO PWM VIF IN DB")
+		else 
+			`uvm_info($sformatf("VIRTUAL INTERFACE FOUND : %s",get_type_name()),
+							  $sformatf("%s SUCCESSFULLY GOT THE VIF HANDLE !!!",get_type_name()),UVM_LOW);	
 
+		//set the environment configuration object into the DB
 		uvm_config_db # (env_config) :: set(this,"env","env_cfg",env_cfg); 
 		 
 	endfunction //	function void pwm_test :: build_phase(uvm_phase phase);
