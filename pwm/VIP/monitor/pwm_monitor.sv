@@ -58,7 +58,7 @@ endclass
 		dut_in_tx_port  = new("dut_in_tx_port",this);
 		dut_out_tx_port = new("dut_out_tx_port",this);
 		/*if(!uvm_config_db #(agent_config) :: get(this," ","agt_cfg",agt_cfg);
-			`uvm_fatal("MONITOR","No  agent configuration found");
+			`uvm_fatal("get_type_name()","No  agent configuration found");
 		vif=agt_cfg.vif*/
 	endfunction //	function void pwm_monitor :: build_phase(uvm_phase phase); 
 
@@ -69,7 +69,8 @@ endclass
 //----------------------------------------Monitor run_phase-----------------------------------------//
 
 	task pwm_monitor :: run_phase(uvm_phase phase);
-		//input and output transaction are process separately, so spawn off separate thread to the receiver
+		`uvm_info($sformatf("RUN PHASE : %s",get_type_name()),
+							$sformatf("RUN PHASE : %s HAS STARTED !!!",get_type_name()),UVM_LOW);		//input and output transaction are process separately, so spawn off separate thread to the receiver
 		/*fork
 			get_inputs();
 			get_outputs();
@@ -104,10 +105,8 @@ endclass
 		forever begin
 			pwm_tx_out = pwm_item :: type_id :: create("pwm_tx_out");
 			//vif.get_an_output(pwm_tx_out); 
-			/*
-				Call interface method get_an_output by passing handle to the argument. 
-			  The method waits for the DUT output transaction to fills in the properties of output transaction.
-			*/
+			/*call interface method get_an_output by passing handle to the argument. 
+			  The method waits for the DUT output transaction to fills in the properties of output transaction. */
 			`uvm_info("PWM_TX_OUT",pwm_tx_out.convert2string(),UVM_DEBUG);
 			dut_out_tx_port.write(pwm_tx_out); //send the transaction for analysis to the TLM connection
 		end
