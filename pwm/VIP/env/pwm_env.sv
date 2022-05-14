@@ -58,7 +58,10 @@ endclass
 
 		//get the environment configuration object from the DB
 		if (!uvm_config_db # (env_config) :: get (this,"","env_cfg",env_cfg))
-			`uvm_fatal(get_type_name(),"NO ENVIRONMENT CONFIGURATION OBJECT FOUND !!");	
+			`uvm_fatal(get_type_name(),"NO ENVIRONMENT CONFIGURATION OBJECT FOUND !!")
+		else 
+			`uvm_info($sformatf("ENV CONFIG OBJECT FOUND : %s",get_type_name()),
+							  $sformatf("%s SUCCESSFULLY GOT THE CONFIG OBJECT !!!",get_type_name()),UVM_LOW);	
 
 		//set the PWM configuration object into the DB.
 		uvm_config_db # (pwm_config) :: set (this,"agt*","pwm_cfg",env_cfg.pwm_cfg); 	
