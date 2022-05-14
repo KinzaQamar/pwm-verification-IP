@@ -101,8 +101,8 @@ endclass
 		if (!uvm_config_db # (virtual pwm_interface) :: get (this,"","pwm_if",pwm_cfg.vif))
 			`uvm_fatal(get_type_name(),"NO PWM VIF IN DB");
 
-		//set the environment configuration object into the DB.
-		uvm_config_db # (env_config) :: set(this,"env","env_cfg",env_cfg); 	
+		uvm_config_db # (env_config) :: set(this,"env","env_cfg",env_cfg); 
+		
 		 
 	endfunction //	function void pwm_test :: build_phase(uvm_phase phase);
 
@@ -115,8 +115,11 @@ endclass
 	/*Connect phase not required as we have no other component except of 
 		an agent class, exist inside the environment hierarchy. */
 	task pwm_test :: run_phase (uvm_phase phase);
+
 		pwm_item tx;
 		div_sequence seq;
+		`uvm_info($sformatf("RUN PHASE : %s",get_type_name()),
+							$sformatf("RUN PHASE : %s HAS STARTED !!!",get_type_name()),UVM_LOW);
 	 	seq = div_sequence::type_id::create("seq");
 		phase.raise_objection(this,"Start tx_sequence"); 
 		seq.start(env.agt.sqr);
@@ -136,6 +139,8 @@ endclass
 
 	//Print topology report
 	function void pwm_test :: end_of_elaboration_phase(uvm_phase phase);
+		`uvm_info($sformatf("END_OF_ELABORATION PHASE : %s",get_type_name()),
+							$sformatf("RUN END_OF_ELABORATION : %s HAS STARTED !!!",get_type_name()),UVM_LOW);		
 		uvm_top.print_topology();
 	endfunction // 	function void pwm_test :: end_of_elaboration_phase(uvm_phase phase);
 
