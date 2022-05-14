@@ -28,7 +28,7 @@ class pwm_agent extends uvm_agent;
 
 //////////////////////////////////////////DATA MEMBERS///////////////////////////////////////////////////
 
-	//agent_config agt_cfg; 												 //handle to configuration object
+	pwm_config pwm_cfg; 												 //handle to configuration object
 
 //////////////////////////////////////////COMPONENTS MEMBERS//////////////////////////////////////////////
 
@@ -51,17 +51,28 @@ endclass
 
 	//building the components inside the hierarchy of agent class
 	function void pwm_agent :: build_phase(uvm_phase phase);
-/*		`uvm_info($sformatf("RUN PHASE : %s",get_type_name()),
-							$sformatf("RUN PHASE : %s HAS STARTED !!!",get_type_name()),UVM_LOW);*/
-	//  get configuration information. Will be covered in later examples
-	//	agt_cfg = new();	
-		mon = pwm_monitor::type_id::create("mon",this);
+		`uvm_info($sformatf("BUILD PHASE : %s",get_type_name()),
+							$sformatf("BUILD PHASE : %s HAS STARTED !!!",get_type_name()),UVM_LOW);
+
+		//create the components below agent.
+		pwm_cfg = pwm_config::type_id::create("pwm_cfg",this);	
 		dut_in_tx_port  = new("dut_in_tx_port",this);
 		dut_out_tx_port = new("dut_out_tx_port",this);
-	//	if (agt_cfg.active == UVM_ACTIVE) begin
-				drv = pwm_driver::type_id::create("drv",this);
-				sqr = new("sqr",this);
-	//	end
+
+		//if the agent is active, create driver and sequencer
+	  if (pwm_cfg.active == UVM_ACTIVE) begin
+			`uvm_info($sformatf("ACTIVE AGENT : %s",get_type_name()),
+							  $sformatf("CREATING DRIVER AND SEQUENCER !!!"),UVM_LOW);
+			drv = pwm_driver::type_id::create("drv",this);
+			sqr = new("sqr",this);
+	  end
+		//always create the monitor
+		mon = pwm_monitor::type_id::create("mon",this);
+		
+		//get configuration information set by the environment through the DB. 
+		if (!uvm_config_db # (pwm_config) :: get (this,"","pwm_cfg",pwm_cfg))
+			`uvm_fatal(get_type_name(),"NO AGENT CONFIGURATION OBJECT FOUND !!");	 
+
 	endfunction //	function void pwm_agent :: build_phase(uvm_phase phase);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
