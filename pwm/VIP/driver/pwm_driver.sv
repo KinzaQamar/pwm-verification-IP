@@ -71,6 +71,8 @@ endclass
 
 		// 1- Declare the sequence item handle
 		pwm_item tx;
+		`uvm_info($sformatf("RUN PHASE : %s",get_type_name()),
+							$sformatf("RUN PHASE : %s HAS STARTED !!!",get_type_name()),UVM_LOW);
 		forever begin
 			// 2- Request a new transaction
 			seq_item_port.get_next_item(tx);  /*Driver call get_next_item which blocks the driver until sequence send transaction 
