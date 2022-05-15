@@ -30,6 +30,7 @@ class pwm_test extends uvm_test;
 
 	pwm_config pwm_cfg;				  //handle to configuration object
 	env_config env_cfg;				  //handle to configuration object
+	//uvm_cmdline_processor cmd_line;
 
 //////////////////////////////////////////COMPONENTS MEMBERS//////////////////////////////////////////////
 
@@ -91,6 +92,20 @@ endclass
 		//Set the configurations for this test - only values other than default
 		env_cfg.enable_coverage = 0;
 
+		//Get the configurations values from the commandline using UVM CMDLINE processor
+	/*	void'(uvm_config_db # (enum) :: get (this,"","active",pwm_cfg.active));
+		`uvm_info($sformatf("COMMANDLINE ARGUMENT : %s",get_type_name),
+							$sformatf("AGENT IS NOW CONFIGURED AS %s",pwm_cfg.active.name()),UVM_LOW);
+	*/
+	/*
+		//1- Instantiate the cmdlineprocessor class
+		//uvm_cmdline_processor cmd_line;
+		//2- Create the instance
+		//get_inst will return the singleton instance of the UVM command line processor  
+		cmd_line = uvm_cmdline_processor::get_inst();
+		//3-Get the arguments from the CMDLINE
+		cmd_line.get_arg_values("+args",pwm_cfg.active);
+	*/
 		/*
 		Format to get the configuration settings into the config_db:
 		uvm_config_db # (data type) :: get (scope{context(handle to the actual component that is calling the DB),
