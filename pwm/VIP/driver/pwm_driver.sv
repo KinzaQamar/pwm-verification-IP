@@ -120,14 +120,12 @@ endclass
 
 	task pwm_driver :: print_transaction(pwm_item tr);
 		`uvm_info(get_type_name(),
-							"\n//////////////////////////////////////////DRIVER print_transaction METHOD
-							//////////////////////",
+							"\n//////////////////////////////////////////DRIVER print_transaction METHOD//////////////////////",
 							UVM_LOW);
 		`uvm_info(get_type_name(),tr.convert2string,UVM_LOW);
 		//vif.print_interface_transaction(tr)
 		`uvm_info(get_type_name(),
-							"\n//////////////////////////////////////////DRIVER print_transaction METHOD
-							//////////////////////",
+							"\n//////////////////////////////////////////DRIVER print_transaction METHOD//////////////////////",
 							UVM_LOW);
 	endtask // task pwm_driver :: print_transaction(pwm_item tr);
 
