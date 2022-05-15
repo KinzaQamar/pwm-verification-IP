@@ -14,7 +14,7 @@
 // Description:                                                                                        //
 //            pwm_monitor broadcast the input and output transactions from DUT through the analysis    //
 //						port.                                                                                    //
-// Revision Date:                                                                                      //
+// Revision Date:  15-MAY-2022                                                                         //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class pwm_monitor extends uvm_monitor;
@@ -88,10 +88,10 @@ endclass
 		`uvm_info($sformatf("RUN PHASE : %s",get_type_name()),
 							$sformatf("RUN PHASE : %s HAS STARTED !!!",get_type_name()),UVM_LOW);		
 		//input and output transaction are process separately, so spawn off separate thread to the receiver
-		fork
+		/*fork
 			get_inputs();
 			get_outputs();
-		join
+		join*/
 	endtask //	task pwm_monitor :: get_inputs();
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
