@@ -13,7 +13,7 @@
 //                                                                                                     //
 // Description:                                                                                        //
 //          	 pwm_driver drives the configurations to the DUT via virtual interface.                  //
-// Revision Date:  5-MAY-2022                                                                          //
+// Revision Date:  15-MAY-2022                                                                         //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class pwm_driver extends uvm_driver #(pwm_item);
@@ -45,6 +45,9 @@ class pwm_driver extends uvm_driver #(pwm_item);
 
 	//Print method for printing transaction items
 	extern virtual task print_transaction(pwm_item tr);
+
+	//Print method for printing transaction items from interface
+	extern virtual task print_interface_signal_from_driver();
 
 endclass
 
@@ -85,9 +88,10 @@ endclass
 																					handle to the driver by calling finish item. This action unblocks the sequence. 
 																					seq_item_port is a blocking tlm port declare and constructed inside the driver.*/
 			// 3- Send transaction to the DUT
-			vif.transaction(tx); 						//transfer the item to the dut via virtual interface
+			print_interface_signal_from_driver();
+			vif.transaction(tx); 						  //transfer the item to the dut via virtual interface
 			print_transaction(tx); 
-			//vif.print_interface_transaction(tx);
+			vif.print_interface_transaction(tx);
 			// 4- Driver is done with the transaction
 			seq_item_port.item_done(); 			 	/*When the transaction completes, the driver calls item_done() to tell the seq it is
 			 																		done with the item. This call unblocks the sequence. */
@@ -103,21 +107,45 @@ endclass
 //-----------------------------------print_transaction Method-----------------------------------------//
 
 	/*task pwm_driver :: print_transaction(pwm_item tr);
-		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.rst_ni  = %0d",tr.rst_ni ),UVM_LOW);
-		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.write   = %0d",tr.write  ),UVM_LOW);
-		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.addr_i  = %0d",tr.addr_i ),UVM_LOW);
-		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.wdata_i = %0d",tr.wdata_i),UVM_LOW);
-		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.rdata_o = %0d",tr.rdata_o),UVM_LOW);
-		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.o_pwm   = %0d",tr.o_pwm  ),UVM_LOW);
-		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.o_pwm_2 = %0d",tr.o_pwm_2),UVM_LOW);
-		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.oe_pwm1 = %0d",tr.oe_pwm1),UVM_LOW);
-		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.oe_pwm2 = %0d",tr.oe_pwm2),UVM_LOW);
+		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.rst_ni  = 0x%0h",tr.rst_ni ),UVM_LOW);
+		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.write   = 0x%0h",tr.write  ),UVM_LOW);
+		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.addr_i  = 0x%0h",tr.addr_i ),UVM_LOW);
+		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.wdata_i = 0x%0h",tr.wdata_i),UVM_LOW);
+		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.rdata_o = 0x%0h",tr.rdata_o),UVM_LOW);
+		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.o_pwm   = 0x%0h",tr.o_pwm  ),UVM_LOW);
+		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.o_pwm_2 = 0x%0h",tr.o_pwm_2),UVM_LOW);
+		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.oe_pwm1 = 0x%0h",tr.oe_pwm1),UVM_LOW);
+		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.oe_pwm2 = 0x%0h",tr.oe_pwm2),UVM_LOW);
 	endtask //task pwm_driver :: transfer(pwm_item tr);*/
 
 	task pwm_driver :: print_transaction(pwm_item tr);
+		`uvm_info(get_type_name(),
+							"\n//////////////////////////////////////////DRIVER print_transaction METHOD//////////////////////",
+							UVM_LOW);
 		`uvm_info(get_type_name(),tr.convert2string,UVM_LOW);
 		//vif.print_interface_transaction(tr)
+		`uvm_info(get_type_name(),
+							"\n//////////////////////////////////////////DRIVER print_transaction METHOD//////////////////////",
+							UVM_LOW);
 	endtask // task pwm_driver :: print_transaction(pwm_item tr);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //-----------------------------------print_transaction Method-----------------------------------------//
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------print_interface_signal_from_driver Method------------------------//
+
+	task pwm_driver :: print_interface_signal_from_driver();
+		`uvm_info($sformatf("PRINTING INTERFACE SIGNALS FROM : %s",get_type_name()),$sformatf("vif.rst_ni  =  0x%0h",vif.rst_ni ),UVM_LOW);
+		`uvm_info($sformatf("PRINTING INTERFACE SIGNALS FROM : %s",get_type_name()),$sformatf("vif.write   =  0x%0h",vif.write  ),UVM_LOW);
+		`uvm_info($sformatf("PRINTING INTERFACE SIGNALS FROM : %s",get_type_name()),$sformatf("vif.addr_i  =  0x%0h",vif.addr_i ),UVM_LOW);
+		`uvm_info($sformatf("PRINTING INTERFACE SIGNALS FROM : %s",get_type_name()),$sformatf("vif.wdata_i =  0x%0h",vif.wdata_i),UVM_LOW);
+		`uvm_info($sformatf("PRINTING INTERFACE SIGNALS FROM : %s",get_type_name()),$sformatf("vif.rdata_o =  0x%0h",vif.rdata_o),UVM_LOW);
+		`uvm_info($sformatf("PRINTING INTERFACE SIGNALS FROM : %s",get_type_name()),$sformatf("vif.o_pwm   =  0x%0h",vif.o_pwm  ),UVM_LOW);
+		`uvm_info($sformatf("PRINTING INTERFACE SIGNALS FROM : %s",get_type_name()),$sformatf("vif.o_pwm_2 =  0x%0h",vif.o_pwm_2),UVM_LOW);
+		`uvm_info($sformatf("PRINTING INTERFACE SIGNALS FROM : %s",get_type_name()),$sformatf("vif.oe_pwm1 =  0x%0h",vif.oe_pwm1),UVM_LOW);
+		`uvm_info($sformatf("PRINTING INTERFACE SIGNALS FROM : %s",get_type_name()),$sformatf("vif.oe_pwm2 =  0x%0h",vif.oe_pwm2),UVM_LOW);
+	endtask //task pwm_driver :: print_interface_signal_from_driver();
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------print_interface_signal_from_driver Method------------------------//
