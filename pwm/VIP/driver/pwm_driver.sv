@@ -35,7 +35,7 @@ class pwm_driver extends uvm_driver #(pwm_item);
 
 //////////////////////////////////////////DATA MEMBERS///////////////////////////////////////////////////
 
-	//agent_config agt_cfg;
+	pwm_config pwm_cfg;
 
 //////////////////////////////////////////METHODS///////////////////////////////////////////////////////
 
@@ -56,9 +56,15 @@ endclass
 							$sformatf("BUILD PHASE OF %s HAS STARTED !!!",get_type_name()),UVM_LOW);
 	/*	if (!uvm_config_db # (virtual pwm_interface) :: get (this,"","pwm_if",vif))
 			`uvm_fatal(get_type_name(),"NO PWM VIF IN DB");*/
-	/*	if(!uvm_config_db #(agent_cfg)::get(this,"","agt_cfg",agt_cfg))
-			`uvm_fatal("DRIVER","driver failed to get the virtual interface");
-		vif = agt_cfg.vif; */
+
+		//get configuration object set by the environment through the DB. 
+		if (!uvm_config_db #(pwm_config) :: get(this," ","pwm_cfg",pwm_cfg))
+			`uvm_fatal(get_type_name(),"NO AGENT CONFIGURATION OBJECT FOUND !!")
+		else 
+			`uvm_info($sformatf("AGENT CONFIG OBJECT FOUND : %s",get_type_name()),
+							  $sformatf("%s SUCCESSFULLY GOT THE CONFIG OBJECT !!!",get_type_name()),UVM_LOW);		
+		
+		vif = pwm_cfg.vif; 
 	endfunction //function void pwm_driver :: build_phase (uvm_phase phase); 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -79,7 +85,7 @@ endclass
 																					handle to the driver by calling finish item. This action unblocks the sequence. 
 																					seq_item_port is a blocking tlm port declare and constructed inside the driver.*/
 			// 3- Send transaction to the DUT
-			//vif.transaction(tx); 						//transfer the item to the dut via virtual interface
+			vif.transaction(tx); 						//transfer the item to the dut via virtual interface
 			print_transaction(tx); 
 			//vif.print_interface_transaction(tx);
 			// 4- Driver is done with the transaction
