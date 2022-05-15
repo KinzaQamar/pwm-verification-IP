@@ -13,7 +13,7 @@
 //                                                                                                     //
 // Description:                                                                                        //
 //            The pwm_test class extends from uvm_test is used to start the sequence.                  //
-// Revision Date:                                                                                      //
+// Revision Date:  15-MAY-2022                                                                         //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class pwm_test extends uvm_test;
