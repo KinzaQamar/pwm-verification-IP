@@ -82,16 +82,16 @@ endclass
 //----------------------------------------Monitor build_phase-----------------------------------------//
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-//----------------------------------------Monitor run_phase-----------------------------------------//
+//----------------------------------------Monitor run_phase-------------------------------------------//
 
 	task pwm_monitor :: run_phase(uvm_phase phase);
 		`uvm_info($sformatf("RUN PHASE : %s",get_type_name()),
 							$sformatf("RUN PHASE : %s HAS STARTED !!!",get_type_name()),UVM_LOW);		
 		//input and output transaction are process separately, so spawn off separate thread to the receiver
-		/*fork
+		fork
 			get_inputs();
 			get_outputs();
-		join*/
+		join
 	endtask //	task pwm_monitor :: get_inputs();
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -104,8 +104,9 @@ endclass
 		pwm_item pwm_tx_in;
 		forever begin
 			pwm_tx_in=pwm_item::type_id::create("pwm_tx_in");
+			vif.get_an_input(pwm_tx_in); 
 			/*
-			vif.get_an_input(pwm_tx_in); //call interface method get_an_input by passing handle to the argument. 
+			call interface method get_an_input by passing handle to the argument. 
 			The method waits for the DUT input transaction to fills in the properties of input transaction. 
 			*/
 			`uvm_info("PWM_TX_IN",pwm_tx_in.convert2string(),UVM_DEBUG);
@@ -123,7 +124,7 @@ endclass
 		pwm_item pwm_tx_out;
 		forever begin
 			pwm_tx_out=pwm_item::type_id::create("pwm_tx_out");
-			//vif.get_an_output(pwm_tx_out); 
+			vif.get_an_output(pwm_tx_out); 
 			/*
 			call interface method get_an_output by passing handle to the argument. 
 			The method waits for the DUT output transaction to fills in the properties of output transaction. \
