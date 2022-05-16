@@ -27,7 +27,7 @@ class pwm_config extends uvm_object;
 	endfunction
 
 	//virtual interface
-	virtual usb_interface vif;
+	virtual pwm_interface vif;
 
 	//configure whether the agent is active or passive;
 	uvm_active_passive_enum active = UVM_ACTIVE;
