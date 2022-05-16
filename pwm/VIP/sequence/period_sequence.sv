@@ -34,7 +34,8 @@ class period_sequence extends uvm_sequence # (pwm_item);
 endclass
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*The two most important properties of a sequence are the body method and the sequencer handle. 
+/*
+	The two most important properties of a sequence are the body method and the sequencer handle. 
 	
 	The body Method:
 	An uvm_sequence contains a task method called body. It is the content of the body method that determines 
@@ -102,4 +103,3 @@ endclass
 //////////////////////////////////////////Running a sequence///////////////////////////////////////////
 
 //After the body() methods returns , it passes the control back to the test.
-
