@@ -12,7 +12,7 @@
 // Language:       SystemVerilog - UVM                                                                 //
 //                                                                                                     //
 // Description:                                                                                        //
-//         reset_sequence generates rst_ni values to set or reset the DUT registers.  				  			 //
+//            reset_sequence generates rst_ni values to set or reset the DUT registers.  			  			 //
 // Revision Date:  3rd-May-2022                                                                        //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -34,7 +34,8 @@ class reset_sequence extends uvm_sequence # (pwm_item);
 endclass
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*The two most important properties of a sequence are the body method and the sequencer handle. 
+/*
+	The two most important properties of a sequence are the body method and the sequencer handle. 
 	
 	The body Method:
 	An uvm_sequence contains a task method called body. It is the content of the body method that determines 
