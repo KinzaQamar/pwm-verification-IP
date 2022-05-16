@@ -13,7 +13,7 @@
 //                                                                                                     //
 // Description:                                                                                        //
 //          	 pwm_driver drives the configurations to the DUT via virtual interface.                  //
-// Revision Date:  15-MAY-2022                                                                         //
+// Revision Date:  5-MAY-2022                                                                          //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class pwm_driver extends uvm_driver #(pwm_item);
@@ -84,11 +84,12 @@ endclass
 							$sformatf("RUN PHASE : %s HAS STARTED !!!",get_type_name()),UVM_LOW);
 		forever begin
 			// 2- Request a new transaction
-			seq_item_port.get_next_item(tx);  /*Driver call get_next_item which blocks the driver until sequence send transaction 
-																					handle to the driver by calling finish item. This action unblocks the sequence. 
-																					seq_item_port is a blocking tlm port declare and constructed inside the driver.*/
-			// 3- Send transaction to the DUT
+			seq_item_port.get_next_item(tx);  /*Driver call get_next_item which blocks the driver until sequence send 
+																					transaction handle to the driver by calling finish item. This action 
+																					unblocks the sequence.seq_item_port is a blocking tlm port declare and
+																					constructed inside the driver.*/
 			print_interface_signal_from_driver();
+			// 3- Send transaction to the DUT
 			vif.transaction(tx); 						  //transfer the item to the dut via virtual interface
 			print_transaction(tx); 
 			vif.print_interface_transaction(tx);
