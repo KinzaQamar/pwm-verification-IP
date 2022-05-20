@@ -5,7 +5,7 @@
 //                                                                                                     //
 // Additional contributions by:                                                                        //
 //                                                                                                     //
-// Create Date:    20-MARCH-2022                                                                       //
+// Create Date:    06-MAY-2022                                                                         //
 // Design Name:    PWM Verification IP                                                                 //
 // Module Name:    pwm_agent.sv                                                                        //
 // Project Name:   PWM Verification IP.                                                                //
@@ -13,7 +13,7 @@
 //                                                                                                     //
 // Description:                                                                                        //
 //            pwm_agent builds and connects driver and sequencer.                                      //
-// Revision Date:                                                                                      //
+// Revision Date:  15-MAY-2022                                                                         //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class pwm_agent extends uvm_agent;
