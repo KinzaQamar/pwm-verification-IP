@@ -59,7 +59,6 @@ module hdl_top;
 	initial begin                                           
 		uvm_config_db # (virtual pwm_interface) :: set(null,"uvm_test_top","pwm_if",pwm_if); 
 		run_test();    				     //run_test start execution of uvm phases
-		//pwm_if.print_interface_transaction(tx);
 	end 
 	
 endmodule 
