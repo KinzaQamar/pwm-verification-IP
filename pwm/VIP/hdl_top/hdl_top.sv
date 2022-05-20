@@ -15,7 +15,7 @@
 //             Top module is responsible to run tx_Test. We pass tx_test as a UVM_TESTNAME on          //
 // 			   		 the commmand line. run_test() gets the name of the test from the commandline            //
 //             and execute uvm_phases.		                                                             //
-// Revision Date:  11-May-2022                                                                         //
+// Revision Date:  20-May-2022                                                                         //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 module hdl_top;
@@ -25,6 +25,21 @@ module hdl_top;
   `include "uvm_macros.svh"    //Includes uvm macros utility
 
 	pwm_interface pwm_if();
+
+//////////////////////////////////////////Connecting DUT//////////////////////////////////////////////////
+
+	pwm dut(
+					.clk_i  (pwm_if.clk_i  ),
+					.rst_ni (pwm_if.rst_ni ),
+					.write  (pwm_if.write  ),
+					.addr_i (pwm_if.addr_i ),
+					.wdata_i(pwm_if.wdata_i),
+					.rdata_o(pwm_if.rdata_o),
+					.o_pwm  (pwm_if.o_pwm  ),
+					.o_pwm_2(pwm_if.o_pwm_2),
+					.oe_pwm1(pwm_if.oe_pwm1),
+					.oe_pwm2(pwm_if.oe_pwm2)
+		    );
 
 //////////////////////////////////////////uvm_config_db set()/////////////////////////////////////////////
 
@@ -56,9 +71,10 @@ module hdl_top;
   
 //////////////////////////////////////////uvm_config_db set()/////////////////////////////////////////////
 
-	initial begin                                           
+	initial begin   
 		uvm_config_db # (virtual pwm_interface) :: set(null,"uvm_test_top","pwm_if",pwm_if); 
-		run_test();    				     //run_test start execution of uvm phases
+		run_test();    				     //run_test start execution of uvm phases                                        
+		//pwm_if.print_interface_transaction(tx);
 	end 
 	
 endmodule 
