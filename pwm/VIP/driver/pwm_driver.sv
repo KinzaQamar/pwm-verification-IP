@@ -49,6 +49,9 @@ class pwm_driver extends uvm_driver #(pwm_item);
 	//Print method for printing transaction items from interface
 	extern virtual task print_interface_signals_from_driver();
 
+	//Print method for printing clock signal by using clk_gen() task from the interface
+	//extern virtual task print_interface_task_clkgen_from_driver();
+
 endclass
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -94,11 +97,13 @@ endclass
 			
 			//Check if the vif.clk_i is generating properly or not
 			vif.clk_gen();
+			//print_interface_task_clkgen_from_driver();
 		
 			// 3- Send transaction to the DUT
 			vif.transaction(tx); 						  //transfer the item to the dut via virtual interface
 			print_transaction(tx); 
 			vif.print_interface_transaction(tx);
+
 			// 4- Driver is done with the transaction
 			seq_item_port.item_done(); 			 	/*When the transaction completes, the driver calls item_done() to tell the seq it is
 			 																		done with the item. This call unblocks the sequence. */
@@ -157,3 +162,15 @@ endclass
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //-----------------------------------print_interface_signal_from_driver Method------------------------//
+
+/*
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------print_interface_task_clkgen_from_driver() Method-----------------//
+
+	task pwm_driver :: print_interface_task_clkgen_from_driver();
+		vif.clk_gen();
+	endtask
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------print_interface_task_clkgen_from_driver() Method-----------------//
+*/
