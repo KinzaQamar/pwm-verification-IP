@@ -105,8 +105,8 @@ endclass
 			vif.print_interface_transaction(tx);
 
 			// 4- Driver is done with the transaction
-			seq_item_port.item_done(); 			 	/*When the transaction completes, the driver calls item_done() to tell the seq it is
-			 																		done with the item. This call unblocks the sequence. */
+			seq_item_port.item_done(); 			 	/*When the transaction completes, the driver calls item_done() to tell the 
+			 																		seq it is done with the item. This call unblocks the sequence. */
 			// 5 - Send response
 		end
 
