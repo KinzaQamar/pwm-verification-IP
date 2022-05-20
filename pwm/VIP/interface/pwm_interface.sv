@@ -13,7 +13,7 @@
 //                                                                                                     //
 // Description:                                                                                        //
 //             PWM interface has methods and signals to drive pwm_items to DUT.                        //
-// Revision Date:  15-MAY-2022                                                                         //
+// Revision Date:  20-MAY-2022                                                                         //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 interface pwm_interface;
@@ -60,27 +60,30 @@ interface pwm_interface;
     write   = tx.write;
     addr_i  = tx.addr_i;
     wdata_i = tx.wdata_i;
-    rdata_o = tx.rdata_o;
-    o_pwm   = tx.o_pwm;
-    o_pwm_2 = tx.o_pwm_2;
-    oe_pwm1 = tx.oe_pwm1;
-    oe_pwm2 = tx.oe_pwm2;
     $display("//////////////////////////////////////////INTERFACE transaction METHODS//////////////////////");
     $display(" rst_ni  = 0x%0h",rst_ni );    
     $display(" write   = 0x%0h",write  );
     $display(" addr_i  = 0x%0h",addr_i );
     $display(" wdata_i = 0x%0h",wdata_i);
-    $display(" rdata_o = 0x%0h",rdata_o);
-    $display(" o_pwm   = 0x%0h",o_pwm  );
-    $display(" o_pwm_2 = 0x%0h",o_pwm_2);
-    $display(" oe_pwm1 = 0x%0h",oe_pwm1);
-    $display(" oe_pwm2 = 0x%0h",oe_pwm2);    
+    $display(" rdata_o = 0x%0h",tx.rdata_o);
+    $display(" o_pwm   = 0x%0h",tx.o_pwm  );
+    $display(" o_pwm_2 = 0x%0h",tx.o_pwm_2);
+    $display(" oe_pwm1 = 0x%0h",tx.oe_pwm1);
+    $display(" oe_pwm2 = 0x%0h",tx.oe_pwm2);    
     //$display("rst_ni = 0x%0h \nwrite = %0d \naddr_i = %0d \nwdata_i = %0h \nrdata_o = %0d \no_pwm = %0d \no_pwm_2 = %0d \noe_pwm1 = %0d \noe_pwm2 = %0d" , rst_ni, write, addr_i, wdata_i, rdata_o, o_pwm, o_pwm_2, oe_pwm1, oe_pwm2);
     $display("//////////////////////////////////////////INTERFACE transaction METHODS//////////////////////");
   endtask // task automatic transaction (pwm_item tx);
 
-  task automatic clk_gen (input bit clk);
-    repeat(100) #1ns clk_i = clk;
+  task automatic clk_gen ();
+		clk_i = 1'b0;
+    //repeat(100) #1ns clk_i = ~clk_i;
+    $display("//////////////////////////////////////////INTERFACE clk_gen METHODS//////////////////////////");
+    //$monitor(" clk_i = 0x%0h",clk_i ); 
+		for (int i = 0;i<100;i++) begin
+			#1ns clk_i = ~clk_i;
+    	$display(" clk_i = 0x%0h at time = %0tns",clk_i,$realtime); 
+		end
+    $display("//////////////////////////////////////////INTERFACE clk_gen METHODS//////////////////////////");   
   endtask // task automatic clk_gen (input bit clk);
 
 	task automatic get_an_input (pwm_item tx);
