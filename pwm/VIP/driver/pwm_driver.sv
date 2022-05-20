@@ -13,7 +13,7 @@
 //                                                                                                     //
 // Description:                                                                                        //
 //          	 pwm_driver drives the configurations to the DUT via virtual interface.                  //
-// Revision Date:  5-MAY-2022                                                                          //
+// Revision Date:  20-MAY-2022                                                                         //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class pwm_driver extends uvm_driver #(pwm_item);
@@ -47,7 +47,7 @@ class pwm_driver extends uvm_driver #(pwm_item);
 	extern virtual task print_transaction(pwm_item tr);
 
 	//Print method for printing transaction items from interface
-	extern virtual task print_interface_signal_from_driver();
+	extern virtual task print_interface_signals_from_driver();
 
 endclass
 
@@ -88,7 +88,13 @@ endclass
 																					transaction handle to the driver by calling finish item. This action 
 																					unblocks the sequence.seq_item_port is a blocking tlm port declare and
 																					constructed inside the driver.*/
-			print_interface_signal_from_driver();
+			
+			//Print the interface signals before sending the pwm_items out to the interface
+			print_interface_signals_from_driver();
+			
+			//Check if the vif.clk_i is generating properly or not
+			vif.clk_gen();
+		
 			// 3- Send transaction to the DUT
 			vif.transaction(tx); 						  //transfer the item to the dut via virtual interface
 			print_transaction(tx); 
@@ -136,7 +142,8 @@ endclass
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //-----------------------------------print_interface_signal_from_driver Method------------------------//
 
-	task pwm_driver :: print_interface_signal_from_driver();
+	task pwm_driver :: print_interface_signals_from_driver();
+		`uvm_info($sformatf("PRINTING INTERFACE SIGNALS FROM : %s",get_type_name()),$sformatf("vif.clk_i   =  0x%0h",vif.clk_i  ),UVM_LOW);
 		`uvm_info($sformatf("PRINTING INTERFACE SIGNALS FROM : %s",get_type_name()),$sformatf("vif.rst_ni  =  0x%0h",vif.rst_ni ),UVM_LOW);
 		`uvm_info($sformatf("PRINTING INTERFACE SIGNALS FROM : %s",get_type_name()),$sformatf("vif.write   =  0x%0h",vif.write  ),UVM_LOW);
 		`uvm_info($sformatf("PRINTING INTERFACE SIGNALS FROM : %s",get_type_name()),$sformatf("vif.addr_i  =  0x%0h",vif.addr_i ),UVM_LOW);
