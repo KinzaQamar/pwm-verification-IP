@@ -12,7 +12,7 @@
 // Language:       SystemVerilog - UVM                                                                 //
 //                                                                                                     //
 // Description:                                                                                        //
-//             This file contain names of the files to be compiled, elaborate and simulate.            //
+//         -  This file contain names of the files to be compiled, elaborate and simulate.             //
 // Revision Date:                                                                                      //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -31,8 +31,12 @@
 
 // compile files
 ../pkg/base_class_pkg.sv
-../interface/pwm_interface.sv
 ../hdl_top/hdl_top.sv          
+../interface/pwm_interface.sv
+../../RTL/pwm.sv
 
 //Additional options
 +UVM_NO_RELNOTES
+//+uvm_set_config_enum=uvm_test_top,active,UVM_PASSIVE
+//+args="UVM_PASSIVE"
+//+UVM_CONFIG_DB_TRACE
