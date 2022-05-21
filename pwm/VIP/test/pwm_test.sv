@@ -13,7 +13,7 @@
 //                                                                                                     //
 // Description:                                                                                        //
 //            The pwm_test class extends from uvm_test is used to start the sequence.                  //
-// Revision Date:  15-MAY-2022                                                                         //
+// Revision Date:                                                                                      //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class pwm_test extends uvm_test;
@@ -139,14 +139,23 @@ endclass
 		`uvm_info($sformatf("RUN PHASE : %s",get_type_name()),
 							$sformatf("RUN PHASE : %s HAS STARTED !!!",get_type_name()),UVM_LOW);
 	 	seq = div_sequence::type_id::create("seq");
-		phase.raise_objection(this,"Start tx_sequence"); 
+		phase.raise_objection(this,"pwm_test objection raised !!"); 
 		seq.start(env.agt.sqr);
 		/*test raises an object and calls the start method in the sequence passing 
 			in a handle to the seqr. The sequence start method call body(). */
-		phase.drop_objection(this,"End tx_sequence"); /*when the seq body() task return, it drops the objection 
-																										telling UVM that the stimulus is done and run_phase() 
-																										is over. */
-//		print_transaction(tx);																									
+		phase.drop_objection(this,"pwm_test objection dropped !!"); /*when the seq body() task return, it  
+																																	drops the objectiontelling UVM that 
+																																	the stimulus is done and run_phase() 
+																																	is over. */
+		/*
+		Dropping objection after last sequence item has sent is too soon. You need to wait until the last 
+		transaction reaches to the design and generates the outputs. This way the scoreboard can receive 
+		the last transaction. How can you tell UVM to wait before exiting from run phase? We uses drain 
+		time which is an extra delay after last objection has dropped.
+		*/
+		phase.phase_done.set_drain_time(this,"200");
+			
+//	print_transaction(tx);																									
 	endtask //	task pwm_test :: run_phase (uvm_phase phase);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
