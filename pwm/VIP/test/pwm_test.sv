@@ -13,7 +13,7 @@
 //                                                                                                     //
 // Description:                                                                                        //
 //            The pwm_test class extends from uvm_test is used to start the sequence.                  //
-// Revision Date:                                                                                      //
+// Revision Date: 21-MAY-2022                                                                          //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class pwm_test extends uvm_test;
@@ -140,7 +140,14 @@ endclass
 							$sformatf("RUN PHASE : %s HAS STARTED !!!",get_type_name()),UVM_LOW);
 	 	seq = div_sequence::type_id::create("seq");
 		phase.raise_objection(this,"pwm_test objection raised !!"); 
-		seq.start(env.agt.sqr);
+		/*
+		The hierarchical path name is a poor OOP code. Now your test depends on agent handle name in the 
+		base class and sequencer handle name in the environment class. These component classes could change.
+		If you use this test with the environment that has multiple agents, you have to change this line.
+		what if the test could ask the agent for the sequencer handle? For doing so, we use he configuration
+		object.
+		/*
+		//seq.start(env.agt.sqr); 
 		/*test raises an object and calls the start method in the sequence passing 
 			in a handle to the seqr. The sequence start method call body(). */
 		phase.drop_objection(this,"pwm_test objection dropped !!"); /*when the seq body() task return, it  
