@@ -5,7 +5,7 @@
 //                                                                                                     //
 // Additional contributions by:                                                                        //
 //                                                                                                     //
-// Create Date:    06-MAY-2022                                                                         //
+// Create Date:    05-MAY-2022                                                                         //
 // Design Name:    PWM Verification IP                                                                 //
 // Module Name:    pwm_agent.sv                                                                        //
 // Project Name:   PWM Verification IP.                                                                //
@@ -13,7 +13,7 @@
 //                                                                                                     //
 // Description:                                                                                        //
 //            pwm_agent builds and connects driver and sequencer.                                      //
-// Revision Date:  15-MAY-2022                                                                         //
+// Revision Date:  21-MAY-2022                                                                         //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class pwm_agent extends uvm_agent;
@@ -59,14 +59,6 @@ endclass
 		dut_in_tx_port  = new("dut_in_tx_port",this);
 		dut_out_tx_port = new("dut_out_tx_port",this);
 
-		//if the agent is active, create driver and sequencer
-	  if (pwm_cfg.active == UVM_ACTIVE) begin
-			`uvm_info($sformatf("ACTIVE AGENT : %s",get_type_name()),
-							  $sformatf("CREATING DRIVER AND SEQUENCER !!!"),UVM_LOW);
-			drv = pwm_driver::type_id::create("drv",this);
-			sqr = new("sqr",this);
-	  end
-
 		//always create the monitor
 		mon = pwm_monitor::type_id::create("mon",this);
 		
@@ -76,6 +68,15 @@ endclass
 		else 
 			`uvm_info($sformatf("AGENT CONFIG OBJECT FOUND : %s",get_type_name()),
 							  $sformatf("%s SUCCESSFULLY GOT THE CONFIG OBJECT !!!",get_type_name()),UVM_LOW);			 
+
+		//if the agent is active, create driver and sequencer
+		if (pwm_cfg.active == UVM_ACTIVE) begin
+			`uvm_info($sformatf("ACTIVE AGENT : %s",get_type_name()),
+							  $sformatf("CREATING DRIVER AND SEQUENCER !!!"),UVM_LOW);
+			drv = pwm_driver::type_id::create("drv",this);
+			sqr = new("sqr",this);
+			pwm_cfg.sqr = sqr;
+		end
 
 	endfunction //	function void pwm_agent :: build_phase(uvm_phase phase);
 
