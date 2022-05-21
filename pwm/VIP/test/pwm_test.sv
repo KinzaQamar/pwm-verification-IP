@@ -139,18 +139,18 @@ endclass
 		`uvm_info($sformatf("RUN PHASE : %s",get_type_name()),
 							$sformatf("RUN PHASE : %s HAS STARTED !!!",get_type_name()),UVM_LOW);
 	 	seq = div_sequence::type_id::create("seq");
-		phase.raise_objection(this,"pwm_test objection raised !!"); 
+		phase.raise_objection(this,$sformatf("%m")); 
 		/*
 		The hierarchical path name is a poor OOP code. Now your test depends on agent handle name in the 
 		base class and sequencer handle name in the environment class. These component classes could change.
 		If you use this test with the environment that has multiple agents, you have to change this line.
 		what if the test could ask the agent for the sequencer handle? For doing so, we use he configuration
 		object.
-		/*
+		*/
 		//seq.start(env.agt.sqr); 
 		/*test raises an object and calls the start method in the sequence passing 
 			in a handle to the seqr. The sequence start method call body(). */
-		phase.drop_objection(this,"pwm_test objection dropped !!"); /*when the seq body() task return, it  
+		phase.drop_objection(this,$sformatf("%m")); /*when the seq body() task return, it  
 																																	drops the objectiontelling UVM that 
 																																	the stimulus is done and run_phase() 
 																																	is over. */
