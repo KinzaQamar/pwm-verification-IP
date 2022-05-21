@@ -168,7 +168,7 @@ endclass
 		$sformat(s, ":%s\n o_pwm_2 = 0x%0x" ,s,o_pwm_2); 
 		$sformat(s, ":%s\n oe_pwm1 = 0x%0x" ,s,oe_pwm1); 
 		$sformat(s, ":%s\n oe_pwm2 = 0x%0x" ,s,oe_pwm2); 
-		$sformat(s, ":%s\n result  = 0x%0x" ,s,rdata_o); 
+		$sformat(s, ":%s\n rdata_o = 0x%0x" ,s,rdata_o); 
 
 		/* For aggregated class properties,
 			 $sformat(s, "%s\n aggregated class  = %s", s,
