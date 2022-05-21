@@ -151,9 +151,9 @@ endclass
 		/*test raises an object and calls the start method in the sequence passing 
 			in a handle to the seqr. The sequence start method call body(). */
 		phase.drop_objection(this,$sformatf("%m")); /*when the seq body() task return, it  
-																																	drops the objectiontelling UVM that 
-																																	the stimulus is done and run_phase() 
-																																	is over. */
+																									drops the objectiontelling UVM that 
+																									the stimulus is done and run_phase() 
+																									is over. */
 		/*
 		Dropping objection after last sequence item has sent is too soon. You need to wait until the last 
 		transaction reaches to the design and generates the outputs. This way the scoreboard can receive 
