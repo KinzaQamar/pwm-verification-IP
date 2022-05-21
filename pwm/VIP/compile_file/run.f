@@ -37,6 +37,7 @@
 
 //Additional options
 +UVM_NO_RELNOTES
++UVM_OBJECTION_TRACE
 //+uvm_set_config_enum=uvm_test_top,active,UVM_PASSIVE
 //+args="UVM_PASSIVE"
 //+UVM_CONFIG_DB_TRACE
