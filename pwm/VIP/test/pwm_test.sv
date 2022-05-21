@@ -5,7 +5,7 @@
 //                                                                                                     //
 // Additional contributions by:                                                                        //
 //                                                                                                     //
-// Create Date:    20-MARCH-2022                                                                       //
+// Create Date:    05-MAY-2022                                                                         //
 // Design Name:    PWM Verification IP                                                                 //
 // Module Name:    pwm_test.sv                                                                         //
 // Project Name:   PWM Verification IP.                                                                //
@@ -13,7 +13,7 @@
 //                                                                                                     //
 // Description:                                                                                        //
 //            The pwm_test class extends from uvm_test is used to start the sequence.                  //
-// Revision Date: 21-MAY-2022                                                                          //
+// Revision Date:  21-MAY-2022                                                                         //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class pwm_test extends uvm_test;
@@ -148,6 +148,7 @@ endclass
 		object.
 		*/
 		//seq.start(env.agt.sqr); 
+		seq.start(pwm_cfg.sqr); 
 		/*test raises an object and calls the start method in the sequence passing 
 			in a handle to the seqr. The sequence start method call body(). */
 		phase.drop_objection(this,$sformatf("%m")); /*when the seq body() task return, it  
