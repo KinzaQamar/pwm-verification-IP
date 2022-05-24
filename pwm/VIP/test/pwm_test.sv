@@ -5,7 +5,7 @@
 //                                                                                                     //
 // Additional contributions by:                                                                        //
 //                                                                                                     //
-// Create Date:    05-MAY-2022                                                                         //
+// Create Date:    20-MARCH-2022                                                                       //
 // Design Name:    PWM Verification IP                                                                 //
 // Module Name:    pwm_test.sv                                                                         //
 // Project Name:   PWM Verification IP.                                                                //
@@ -13,7 +13,7 @@
 //                                                                                                     //
 // Description:                                                                                        //
 //            The pwm_test class extends from uvm_test is used to start the sequence.                  //
-// Revision Date:  21-MAY-2022                                                                         //
+// Revision Date: 21-MAY-2022                                                                          //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class pwm_test extends uvm_test;
@@ -93,10 +93,16 @@ endclass
 		env_cfg.enable_coverage = 0;
 
 		//Get the configurations values from the commandline using UVM CMDLINE processor
+		void'(uvm_config_db # (uvm_bitstream_t) :: get (this,"","active",pwm_cfg.active));
+		`uvm_info($sformatf("COMMANDLINE ARGUMENT : %s",get_type_name),
+							$sformatf("AGENT IS NOW CONFIGURED AS %s",pwm_cfg.active.name()),UVM_LOW);
+		
+		//Get the configurations values from the commandline using UVM CMDLINE processor
 	/*	void'(uvm_config_db # (enum) :: get (this,"","active",pwm_cfg.active));
 		`uvm_info($sformatf("COMMANDLINE ARGUMENT : %s",get_type_name),
 							$sformatf("AGENT IS NOW CONFIGURED AS %s",pwm_cfg.active.name()),UVM_LOW);
-	*/
+	*/	
+	
 	/*
 		//1- Instantiate the cmdlineprocessor class
 		//uvm_cmdline_processor cmd_line;
