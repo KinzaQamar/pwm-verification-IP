@@ -6,13 +6,13 @@
 // Additional contributions by:                                                                        //
 //                                                                                                     //
 // Create Date:    20-MARCH-2022                                                                       //
-// Design Name:    Analysis port example                                                               //
+// Design Name:    PWM Verification IP                                                                 //
 // Module Name:    run.f                                                                               //
-// Project Name:   Monitor and Agent analysis port example   		                                       //
+// Project Name:   PWM Verification IP.                                                                //
 // Language:       SystemVerilog - UVM                                                                 //
 //                                                                                                     //
 // Description:                                                                                        //
-//         -  This file contain names of the files to be compiled, elaborate and simulate.             //
+//             This file contain names of the files to be compiled, elaborate and simulate.            //
 // Revision Date:                                                                                      //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -38,6 +38,7 @@
 //Additional options
 +UVM_NO_RELNOTES
 +UVM_OBJECTION_TRACE
-//+uvm_set_config_enum=uvm_test_top,active,UVM_PASSIVE
++uvm_set_config_int=uvm_test_top,active,1 // Pass 0 for passive agent
 //+args="UVM_PASSIVE"
 //+UVM_CONFIG_DB_TRACE
+//+uvm_set_config_enum=uvm_test_top,active,UVM_PASSIVE
