@@ -41,6 +41,7 @@ package base_class_pkg;
   typedef class pwm_monitor;
   typedef class pwm_config;
   typedef class env_config;
+  typedef class pwm_vseq;
   
 ////////////////////////////////Forward class declaration////////////////////////////////////////////////
 
@@ -59,6 +60,7 @@ package base_class_pkg;
   `include "../env/pwm_env.sv"
   `include "../config_object/pwm_config.sv"
   `include "../config_object/env_config.sv"
+  `include "../virtual_sequence/pwm_vseq.sv"
 
 //////////////////////////////////////Include files//////////////////////////////////////////////////////
 
