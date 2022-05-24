@@ -5,7 +5,7 @@
 //                                                                                                     //
 // Additional contributions by:                                                                        //
 //                                                                                                     //
-// Create Date:    20-MARCH-2022                                                                       //
+// Create Date:    20-APRIL-2022                                                                       //
 // Design Name:    PWM Verification IP                                                                 //
 // Module Name:    pwm_test.sv                                                                         //
 // Project Name:   PWM Verification IP.                                                                //
@@ -13,7 +13,7 @@
 //                                                                                                     //
 // Description:                                                                                        //
 //            The pwm_test class extends from uvm_test is used to start the sequence.                  //
-// Revision Date: 21-MAY-2022                                                                          //
+// Revision Date:  24-MAY-2022                                                                         //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class pwm_test extends uvm_test;
@@ -136,41 +136,59 @@ endclass
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //----------------------------------------test run_phase----------------------------------------------//
 
-	/*Connect phase not required as we have no other component except of 
-		an agent class, exist inside the environment hierarchy. */
-	task pwm_test :: run_phase (uvm_phase phase);
+// 	/*Connect phase not required as we have no other component except of 
+// 		an agent class, exist inside the environment hierarchy. */
+// 	task pwm_test :: run_phase (uvm_phase phase);
 
-		pwm_item tx;
-		div_sequence seq;
-		`uvm_info($sformatf("RUN PHASE : %s",get_type_name()),
-							$sformatf("RUN PHASE : %s HAS STARTED !!!",get_type_name()),UVM_LOW);
-	 	seq = div_sequence::type_id::create("seq");
-		phase.raise_objection(this,$sformatf("%m")); 
-		/*
-		The hierarchical path name is a poor OOP code. Now your test depends on agent handle name in the 
-		base class and sequencer handle name in the environment class. These component classes could change.
-		If you use this test with the environment that has multiple agents, you have to change this line.
-		what if the test could ask the agent for the sequencer handle? For doing so, we use he configuration
-		object.
-		*/
-		//seq.start(env.agt.sqr); 
-		seq.start(pwm_cfg.sqr); 
-		/*test raises an object and calls the start method in the sequence passing 
-			in a handle to the seqr. The sequence start method call body(). */
-		phase.drop_objection(this,$sformatf("%m")); /*when the seq body() task return, it  
-																									drops the objectiontelling UVM that 
-																									the stimulus is done and run_phase() 
-																									is over. */
-		/*
-		Dropping objection after last sequence item has sent is too soon. You need to wait until the last 
-		transaction reaches to the design and generates the outputs. This way the scoreboard can receive 
-		the last transaction. How can you tell UVM to wait before exiting from run phase? We uses drain 
-		time which is an extra delay after last objection has dropped.
-		*/
-		phase.phase_done.set_drain_time(this,"200");
+// 		pwm_item tx;
+// 		div_sequence seq;
+// 		`uvm_info($sformatf("RUN PHASE : %s",get_type_name()),
+// 							$sformatf("RUN PHASE : %s HAS STARTED !!!",get_type_name()),UVM_LOW);
+// 	 	seq = div_sequence::type_id::create("seq");
+// 		phase.raise_objection(this,$sformatf("%m")); 
+// 		/*
+// 		The hierarchical path name is a poor OOP code. Now your test depends on agent handle name in the 
+// 		base class and sequencer handle name in the environment class. These component classes could change.
+// 		If you use this test with the environment that has multiple agents, you have to change this line.
+// 		what if the test could ask the agent for the sequencer handle? For doing so, we use he configuration
+// 		object.
+// 		*/
+// 		//seq.start(env.agt.sqr); 
+// 		seq.start(pwm_cfg.sqr); 
+// 		/*test raises an object and calls the start method in the sequence passing 
+// 			in a handle to the seqr. The sequence start method call body(). */
+// 		phase.drop_objection(this,$sformatf("%m")); /*when the seq body() task return, it  
+// 																									drops the objectiontelling UVM that 
+// 																									the stimulus is done and run_phase() 
+// 																									is over. */
+// 		/*
+// 		Dropping objection after last sequence item has sent is too soon. You need to wait until the last 
+// 		transaction reaches to the design and generates the outputs. This way the scoreboard can receive 
+// 		the last transaction. How can you tell UVM to wait before exiting from run phase? We uses drain 
+// 		time which is an extra delay after last objection has dropped.
+// 		*/
+// 		phase.phase_done.set_drain_time(this,"200");
 			
-//	print_transaction(tx);																									
-	endtask //	task pwm_test :: run_phase (uvm_phase phase);
+// //	print_transaction(tx);																									
+// 	endtask //	task pwm_test :: run_phase (uvm_phase phase);
+
+	task pwm_test :: run_phase (uvm_phase phase);
+		uvm_status_e status;
+		pwm_vseq vseq;
+
+		vseq = pwm_vseq::type_id::create("vseq",this);
+
+		phase.raise_objection(this,$sformatf("%m"));
+
+		vseq.init_start_seq(status,
+												pwm_cfg.sqr
+												);
+												
+		phase.drop_objection(this,$sformatf("%m"));
+
+ 		phase.phase_done.set_drain_time(this,"200");
+
+	endtask 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //----------------------------------------test run_phase----------------------------------------------//
