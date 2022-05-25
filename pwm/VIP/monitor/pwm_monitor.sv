@@ -14,7 +14,7 @@
 // Description:                                                                                        //
 //            pwm_monitor broadcast the input and output transactions from DUT through the analysis    //
 //						port.                                                                                    //
-// Revision Date:  15-MAY-2022                                                                         //
+// Revision Date:   25-May-2022                                                                        //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class pwm_monitor extends uvm_monitor;
@@ -82,16 +82,17 @@ endclass
 //----------------------------------------Monitor build_phase-----------------------------------------//
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-//----------------------------------------Monitor run_phase-------------------------------------------//
+//----------------------------------------Monitor run_phase-----------------------------------------//
 
 	task pwm_monitor :: run_phase(uvm_phase phase);
 		`uvm_info($sformatf("RUN PHASE : %s",get_type_name()),
 							$sformatf("RUN PHASE : %s HAS STARTED !!!",get_type_name()),UVM_LOW);		
 		//input and output transaction are process separately, so spawn off separate thread to the receiver
-		/*fork
+		fork
 			get_inputs();
 			get_outputs();
-		join*/
+		join
+
 	endtask //	task pwm_monitor :: get_inputs();
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -103,14 +104,16 @@ endclass
 	task pwm_monitor :: get_inputs();
 		pwm_item pwm_tx_in;
 		forever begin
-			pwm_tx_in=pwm_item::type_id::create("pwm_tx_in");
-			vif.get_an_input(pwm_tx_in); 
-			/*
-			call interface method get_an_input by passing handle to the argument. 
-			The method waits for the DUT input transaction to fills in the properties of input transaction. 
-			*/
-			`uvm_info("PWM_TX_IN",pwm_tx_in.convert2string(),UVM_DEBUG);
-			dut_in_tx_port.write(pwm_tx_in); //broadcast the transaction to the port
+			@(posedge vif.clk_i) begin
+				pwm_tx_in=pwm_item::type_id::create("pwm_tx_in");
+				vif.get_an_input(pwm_tx_in); 
+				/*
+				call interface method get_an_input by passing handle to the argument. 
+				The method waits for the DUT input transaction to fills in the properties of input transaction. 
+				*/
+				dut_in_tx_port.write(pwm_tx_in); //broadcast the transaction to the port
+			end
+//		`uvm_info("PWM_TX_IN",pwm_tx_in.convert2string(),UVM_LOW);
 		end
 	endtask //	task pwm_monitor :: get_inputs();
 
@@ -123,14 +126,16 @@ endclass
 	task pwm_monitor :: get_outputs();
 		pwm_item pwm_tx_out;
 		forever begin
-			pwm_tx_out=pwm_item::type_id::create("pwm_tx_out");
-			vif.get_an_output(pwm_tx_out); 
-			/*
-			call interface method get_an_output by passing handle to the argument. 
-			The method waits for the DUT output transaction to fills in the properties of output transaction. \
-			*/
-			`uvm_info("PWM_TX_OUT",pwm_tx_out.convert2string(),UVM_DEBUG);
-			dut_out_tx_port.write(pwm_tx_out); //send the transaction for analysis to the TLM connection
+			@(posedge vif.clk_i) begin
+				pwm_tx_out=pwm_item::type_id::create("pwm_tx_out");
+				vif.get_an_output(pwm_tx_out); 
+				/*
+				call interface method get_an_output by passing handle to the argument. 
+				The method waits for the DUT output transaction to fills in the properties of output transaction. \
+				*/
+				dut_out_tx_port.write(pwm_tx_out); //send the transaction for analysis to the TLM connection
+			end
+//		`uvm_info("PWM_TX_OUT",pwm_tx_out.convert2string(),UVM_LOW);
 		end
 	endtask //	task pwm_monitor :: get_outputs();
 
