@@ -13,7 +13,7 @@
 //                                                                                                     //
 // Description:                                                                                        //
 //          	 pwm_vseq is a sequence that creates and start other sequences.         								 //
-// Revision Date:  24th-MAY-2022                                                                       //
+// Revision Date:  25th-MAY-2022                                                                       //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class pwm_vseq extends uvm_sequence;
@@ -28,6 +28,7 @@ class pwm_vseq extends uvm_sequence;
 	
 	//declare the sequence handle
 	uvm_sequencer #(pwm_item) pwm_sqr;
+	reset_sequence reset_seq;
 	div_sequence div_seq;
 	period_sequence period_seq;
 	dc_sequence dc_seq;
@@ -53,8 +54,10 @@ endclass
 		period_seq = period_sequence::type_id::create("period_seq");
 		dc_seq = dc_sequence::type_id::create("dc_seq");
 		ctrl_seq = ctrl_sequence::type_id::create("ctrl_seq");
+		reset_seq = reset_sequence::type_id::create("reset_seq");		
 		
 		begin
+			reset_seq.start(pwm_sqr,this);
 			div_seq.start(pwm_sqr,this);
 			period_seq.start(pwm_sqr,this);
 			dc_seq.start(pwm_sqr,this);
