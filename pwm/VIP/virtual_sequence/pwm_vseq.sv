@@ -57,10 +57,29 @@ endclass
 		reset_seq = reset_sequence::type_id::create("reset_seq");		
 		
 		begin
+			`uvm_info(get_type_name(),
+					  		$sformatf("Reseting the DUT through virtual sequence : %s",get_type_name()),
+					  		UVM_LOW);
 			reset_seq.start(pwm_sqr,this);
+
+			`uvm_info(get_type_name(),
+					  	  $sformatf("Setting the divisor through virtual sequence : %s",get_type_name()),
+					  	  UVM_LOW);
 			div_seq.start(pwm_sqr,this);
+
+			`uvm_info(get_type_name(),
+					  	  $sformatf("Setting the period through virtual sequence : %s",get_type_name()),
+					  	  UVM_LOW);
 			period_seq.start(pwm_sqr,this);
+
+			`uvm_info(get_type_name(),
+					  	  $sformatf("Setting the duty cycle through virtual sequence : %s",get_type_name()),
+					  	  UVM_LOW);
 			dc_seq.start(pwm_sqr,this);
+			
+			`uvm_info(get_type_name(),
+					  	  $sformatf("Setting the control register through virtual sequence : %s",get_type_name()),
+					  	  UVM_LOW);
 			ctrl_seq.start(pwm_sqr,this);			
 		end
 
