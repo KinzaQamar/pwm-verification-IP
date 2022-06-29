@@ -13,7 +13,7 @@
 //                                                                                                     //
 // Description:                                                                                        //
 //          	 pwm_driver drives the configurations to the DUT via virtual interface.                  //
-// Revision Date:  20-MAY-2022                                                                         //
+// Revision Date:  28-JUNE-2022                                                                        //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class pwm_driver extends uvm_driver #(pwm_item);
@@ -93,22 +93,40 @@ endclass
 																					constructed inside the driver.*/
 			
 			//Print the interface signals before sending the pwm_items out to the interface
-			print_interface_signals_from_driver();
+			//print_interface_signals_from_driver();
 			
 			//Check if the vif.clk_i is generating properly or not
-			vif.clk_gen();
+			//vif.clk_gen();
 			//print_interface_task_clkgen_from_driver();
 		
 			// 3- Send transaction to the DUT
-			vif.transaction(tx); 						  //transfer the item to the dut via virtual interface
-			print_transaction(tx); 
-			vif.print_interface_transaction(tx);
+			@(posedge vif.clk_i)
+				print_transaction(tx); 
+				vif.record_data(tx);
+				vif.dc_data(tx);
+				vif.transaction(tx); 						  //transfer the item to the dut via virtual interface
+				vif.print_interface_transaction(tx);
+				//vif.clk_gen();
+				//vif.wdata_i_q.push_front(vif.record_data(tx));
+			
+				//@(posedge vif.clk_i)
+				//	vif.rst_ni  = tx.rst_ni  ;
+				//	vif.we_i    = tx.we_i	   ;
+				//	vif.be_i    = tx.be_i	   ;
+				//	vif.re_i    = tx.re_i	   ;
+				//	vif.addr_i  = tx.addr_i  ;
+				//	vif.wdata_i = tx.wdata_i ;
+    		//	vif.rdata_o = tx.rdata_o ;
+    		//	vif.o_pwm   = tx.o_pwm   ;
+    		//	vif.o_pwm_2 = tx.o_pwm_2 ;
+    		//	vif.oe_pwm1 = tx.oe_pwm1 ;
+    		//	vif.oe_pwm2 = tx.oe_pwm2 ;
 
 			// 4- Driver is done with the transaction
 			seq_item_port.item_done(); 			 	/*When the transaction completes, the driver calls item_done() to tell the 
 			 																		seq it is done with the item. This call unblocks the sequence. */
 			// 5 - Send response
-		end
+		end // forever
 
 	endtask //task pwm_driver :: run_phase(uvm_phase phase);
 
@@ -120,7 +138,9 @@ endclass
 
 	/*task pwm_driver :: print_transaction(pwm_item tr);
 		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.rst_ni  = 0x%0h",tr.rst_ni ),UVM_LOW);
-		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.write   = 0x%0h",tr.write  ),UVM_LOW);
+		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.we_i    = 0x%0h",tr.we_i   ),UVM_LOW);
+		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.be_i    = 0x%0h",tr.be_i   ),UVM_LOW);
+		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.re_i    = 0x%0h",tr.re_i   ),UVM_LOW);
 		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.addr_i  = 0x%0h",tr.addr_i ),UVM_LOW);
 		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.wdata_i = 0x%0h",tr.wdata_i),UVM_LOW);
 		`uvm_info("PWM SEQUENCE ITEMS",$sformatf("tr.rdata_o = 0x%0h",tr.rdata_o),UVM_LOW);
@@ -150,7 +170,9 @@ endclass
 	task pwm_driver :: print_interface_signals_from_driver();
 		`uvm_info($sformatf("PRINTING INTERFACE SIGNALS FROM : %s",get_type_name()),$sformatf("vif.clk_i   =  0x%0h",vif.clk_i  ),UVM_LOW);
 		`uvm_info($sformatf("PRINTING INTERFACE SIGNALS FROM : %s",get_type_name()),$sformatf("vif.rst_ni  =  0x%0h",vif.rst_ni ),UVM_LOW);
-		`uvm_info($sformatf("PRINTING INTERFACE SIGNALS FROM : %s",get_type_name()),$sformatf("vif.write   =  0x%0h",vif.write  ),UVM_LOW);
+		`uvm_info($sformatf("PRINTING INTERFACE SIGNALS FROM : %s",get_type_name()),$sformatf("vif.we_i    =  0x%0h",vif.we_i   ),UVM_LOW);
+		`uvm_info($sformatf("PRINTING INTERFACE SIGNALS FROM : %s",get_type_name()),$sformatf("vif.be_i    =  0x%0h",vif.be_i   ),UVM_LOW);
+		`uvm_info($sformatf("PRINTING INTERFACE SIGNALS FROM : %s",get_type_name()),$sformatf("vif.re_i    =  0x%0h",vif.re_i   ),UVM_LOW);
 		`uvm_info($sformatf("PRINTING INTERFACE SIGNALS FROM : %s",get_type_name()),$sformatf("vif.addr_i  =  0x%0h",vif.addr_i ),UVM_LOW);
 		`uvm_info($sformatf("PRINTING INTERFACE SIGNALS FROM : %s",get_type_name()),$sformatf("vif.wdata_i =  0x%0h",vif.wdata_i),UVM_LOW);
 		`uvm_info($sformatf("PRINTING INTERFACE SIGNALS FROM : %s",get_type_name()),$sformatf("vif.rdata_o =  0x%0h",vif.rdata_o),UVM_LOW);
