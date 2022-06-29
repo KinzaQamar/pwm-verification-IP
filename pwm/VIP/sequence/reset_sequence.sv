@@ -74,7 +74,7 @@ endclass
 
   task reset_sequence :: body();
 		pwm_item tx;
-	//repeat(1) begin 			        								//generate transactions for n times
+	  //repeat(3) begin 			        								//generate transactions for n times
 			//Step 1 - Creation
 			tx = pwm_item::type_id::create("tx"); 			//Body task creates transaction using factory creation
 
@@ -88,6 +88,14 @@ endclass
 			if (!tx.randomize())		           					//Randomize transaction
 				`uvm_fatal("Fatal","Randomization Failed")
 			tx.rst_ni  = 1'h0;
+			tx.we_i    = 1'h0;
+			tx.be_i    = 4'b0000;
+			tx.re_i    = 1'h0;
+			tx.addr_i  = 8'hx;
+			tx.wdata_i = 32'hx;
+			/*`uvm_info(get_type_name(),
+					  		$sformatf("Reseting the DUT through virtual sequence : %s",get_type_name()),
+					  		UVM_LOW);*/
 
 				//Step 4 - Go - finish_item()
 			finish_item(tx);		          					    /*Sends transaction and waits for response from driver 
@@ -95,7 +103,7 @@ endclass
 																									  transactions again.*/
   			//Step 5 - Response - get_response()
 
-		//end
+			//end
 
 	endtask //  task reset_sequence :: body();
 
