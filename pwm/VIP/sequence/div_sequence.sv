@@ -87,9 +87,13 @@ endclass
 			//Step 3 - Set
 			if (!tx.randomize())		           					//Randomize transaction
 				`uvm_fatal("Fatal","Randomization Failed")
-			tx.addr_i = 8'h8;														//Adress to divide clock cycles for channel 1
-			tx.rst_ni = 1'h1;
-			tx.write  = 1'h1;
+			//tx.record_data(tx);
+			tx.addr_i  = 8'h4;														//Adress to divide clock cycles for channel 1
+			tx.rst_ni  = 1'h1;
+			tx.we_i    = 1'h1;
+			tx.be_i    = 4'b1111;
+			tx.re_i    = 1'h0;
+			tx.wdata_i = 32'h6;
 
 			//Step 4 - Go - finish_item()
 			finish_item(tx);		          					    /*Sends transaction and waits for response from driver  
