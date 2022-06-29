@@ -88,8 +88,10 @@ endclass
 			tx.addr_i  = 8'h0;													//Address to set control register for channel 1
 			tx.wdata_i = 32'h7;
 			tx.rst_ni  = 1'h1;
-			tx.write   = 1'h1;
-
+			tx.we_i    = 1'h1;
+			tx.be_i    = 4'b1111;
+			tx.re_i    = 1'h0;
+			
 			//Step 4 - Go - finish_item()
 			finish_item(tx);		          					    /*Sends transaction and waits for response from driver  
 												    												to know when it is ready again to generate and send 
