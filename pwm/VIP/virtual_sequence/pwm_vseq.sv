@@ -13,7 +13,7 @@
 //                                                                                                     //
 // Description:                                                                                        //
 //          	 pwm_vseq is a sequence that creates and start other sequences.         								 //
-// Revision Date:  25th-MAY-2022                                                                       //
+// Revision Date:  28-JUNE-2022                                                                        //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class pwm_vseq extends uvm_sequence;
@@ -80,7 +80,8 @@ endclass
 			`uvm_info(get_type_name(),
 					  	  $sformatf("Setting the control register through virtual sequence : %s",get_type_name()),
 					  	  UVM_LOW);
-			ctrl_seq.start(pwm_sqr,this);			
+			ctrl_seq.start(pwm_sqr,this);		
+
 		end
 
 	endtask
