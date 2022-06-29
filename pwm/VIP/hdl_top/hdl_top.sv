@@ -5,7 +5,7 @@
 //                                                                                                     //
 // Additional contributions by:                                                                        //
 //                                                                                                     //
-// Create Date:    20-MARCH-2022                                                                       //
+// Create Date:    20-APRIL-2022                                                                       //
 // Design Name:    PWM Verification IP                                                                 //
 // Module Name:    top.sv                                                                              //
 // Project Name:   PWM Verification IP.                                                                //
@@ -26,12 +26,18 @@ module hdl_top;
 
 	pwm_interface pwm_if();
 
+//////////////////////////////////////////INTERFACE clk_gen METHODS//////////////////////////
+
+always #1ns pwm_if.clk_i=~pwm_if.clk_i;
+
 //////////////////////////////////////////Connecting DUT//////////////////////////////////////////////////
 
 	pwm dut(
 					.clk_i  (pwm_if.clk_i  ),
 					.rst_ni (pwm_if.rst_ni ),
-					.write  (pwm_if.write  ),
+					.we_i   (pwm_if.we_i   ),
+					.be_i   (pwm_if.be_i   ),
+					.re_i   (pwm_if.re_i   ),
 					.addr_i (pwm_if.addr_i ),
 					.wdata_i(pwm_if.wdata_i),
 					.rdata_o(pwm_if.rdata_o),
@@ -74,7 +80,6 @@ module hdl_top;
 	initial begin   
 		uvm_config_db # (virtual pwm_interface) :: set(null,"uvm_test_top","pwm_if",pwm_if); 
 		run_test();    				     //run_test start execution of uvm phases                                        
-		//pwm_if.print_interface_transaction(tx);
 	end 
 	
 endmodule 
