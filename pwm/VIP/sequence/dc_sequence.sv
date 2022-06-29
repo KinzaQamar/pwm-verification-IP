@@ -16,6 +16,24 @@
 // Revision Date:  3rd-May-2022                                                                        //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Company:        MICRO-ELECTRONICS RESEARCH LABORATORY                                               //
+//                                                                                                     //
+// Engineers:      Kinza Qamar Zaman - Verification                                                    //
+//                                                                                                     //
+// Additional contributions by:                                                                        //
+//                                                                                                     //
+// Create Date:    19-APRIL-2022                                                                       //
+// Design Name:    PWM Verification IP                                                                 //
+// Module Name:    dc_sequence.sv                                                                      //
+// Project Name:   PWM Verification IP.                                                                //
+// Language:       SystemVerilog - UVM                                                                 //
+//                                                                                                     //
+// Description:                                                                                        //
+//            dc_sequence generates transactions at a duty cycle register address.  									 //
+// Revision Date:  3rd-May-2022                                                                        //
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class dc_sequence extends uvm_sequence # (pwm_item);
 
   //Factory Registration
@@ -86,10 +104,15 @@ endclass
 			//Step 3 - Set
 			if (!tx.randomize())		           					//Randomize transaction
 				`uvm_fatal("Fatal","Randomization Failed")
-			tx.addr_i  = 8'hc;													//Address to set Duty cycle for channel 1
-			tx.rst_ni  = 1'h1;
-			tx.write   = 1'h1;
-			
+			//tx.dc_data(tx);
+			tx.addr_i  	 = 8'hc;												//Address to set Duty cycle for channel 1
+			tx.rst_ni    = 1'h1;
+			tx.we_i    	 = 1'h1;
+			tx.be_i    	 = 4'b1111;
+			tx.re_i    	 = 1'h0;
+			tx.wdata_i 	 = 32'd1;
+			tx.dc_seq_en = 1'h1;		
+				
 			//Step 4 - Go - finish_item()
 			finish_item(tx);		          					    /*Sends transaction and waits for response from driver 
 																										to know when it is ready again to generate and send 
